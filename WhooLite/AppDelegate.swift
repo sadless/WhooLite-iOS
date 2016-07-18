@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var mainViewController: WhooLiteViewController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        if userDefaults.objectForKey(PreferenceKeys.apiKeyFormat) == nil {
+            window?.rootViewController = window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("login")
+        }
+        UINavigationBar.appearance().barTintColor = UIColor.init(red: 0xFF / 255.0, green: 0xEB / 255.0, blue: 0x3B / 255.0, alpha: 1)
+        
         return true
     }
 
@@ -41,6 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // MARK: - Instance methods
+    
+    func logout() {
+        let realm = try! Realm()
+        
+        try! realm.write({
+            realm.deleteAll()
+        })
+        mainViewController?.performSegueWithIdentifier("logout", sender: nil)
+    }
 }
 
