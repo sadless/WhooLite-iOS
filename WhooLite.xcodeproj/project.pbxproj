@@ -12,6 +12,7 @@
 		7B299F871D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */; };
 		7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */; };
 		7B299F8D1D3BD23D00D51FF1 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F8C1D3BD23D00D51FF1 /* Notifications.swift */; };
+		7B299F8F1D3C730000D51FF1 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F8E1D3C730000D51FF1 /* ApiKeys.swift */; };
 		7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164A21D3486E4009796E4 /* AppDelegate.swift */; };
 		7B3164A81D3486E4009796E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B3164A61D3486E4009796E4 /* Main.storyboard */; };
 		7B3164AA1D3486E4009796E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B3164A91D3486E4009796E4 /* Assets.xcassets */; };
@@ -22,7 +23,6 @@
 		7B3164D41D378956009796E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B3164D31D378956009796E4 /* InfoPlist.strings */; };
 		7B3164D71D37F1C7009796E4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164D61D37F1C7009796E4 /* LoginViewController.swift */; };
 		7B3164D91D37F569009796E4 /* WhooingKeyValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164D81D37F569009796E4 /* WhooingKeyValues.swift */; };
-		7B3164DB1D37F5AE009796E4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164DA1D37F5AE009796E4 /* ApiKeys.swift */; };
 		7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164E91D38102A009796E4 /* WelcomeViewController.swift */; };
 		7B3164EC1D388692009796E4 /* WhooLiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164EB1D388692009796E4 /* WhooLiteViewController.swift */; };
 		7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164ED1D3888D5009796E4 /* ManualViewController.swift */; };
@@ -59,6 +59,7 @@
 		7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhooLiteTabBarItemBaseTableViewController.swift; sourceTree = "<group>"; };
 		7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputTableViewController.swift; sourceTree = "<group>"; };
 		7B299F8C1D3BD23D00D51FF1 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		7B299F8E1D3C730000D51FF1 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		7B31649F1D3486E3009796E4 /* WhooLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhooLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B3164A21D3486E4009796E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B3164A71D3486E4009796E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,7 +76,6 @@
 		7B3164D31D378956009796E4 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		7B3164D61D37F1C7009796E4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7B3164D81D37F569009796E4 /* WhooingKeyValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhooingKeyValues.swift; sourceTree = "<group>"; };
-		7B3164DA1D37F5AE009796E4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		7B3164E31D380BD3009796E4 /* WhooLite-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WhooLite-Bridging-Header.h"; sourceTree = "<group>"; };
 		7B3164E91D38102A009796E4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		7B3164EB1D388692009796E4 /* WhooLiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhooLiteViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 			children = (
 				7B3164D11D3785FE009796E4 /* PreferenceKeys.swift */,
 				7B3164D81D37F569009796E4 /* WhooingKeyValues.swift */,
-				7B3164DA1D37F5AE009796E4 /* ApiKeys.swift */,
+				7B299F8E1D3C730000D51FF1 /* ApiKeys.swift */,
 				7B299F8C1D3BD23D00D51FF1 /* Notifications.swift */,
 			);
 			path = Constants;
@@ -501,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B299F8F1D3C730000D51FF1 /* ApiKeys.swift in Sources */,
 				7B3164F11D38A8F2009796E4 /* Section.swift in Sources */,
 				7B299F851D3B9C6B00D51FF1 /* Account.swift in Sources */,
 				7B299F871D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift in Sources */,
@@ -513,7 +514,6 @@
 				7B3164D21D3785FE009796E4 /* PreferenceKeys.swift in Sources */,
 				7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */,
 				7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */,
-				7B3164DB1D37F5AE009796E4 /* ApiKeys.swift in Sources */,
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
