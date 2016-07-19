@@ -12,11 +12,13 @@ import RealmSwift
 class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     var sectionId: String?
     
-    private var sectionNotificationToken: NotificationToken?
     private var section: Results<Section>?
+    private var sectionNotificationToken: NotificationToken?
     private var sectionReady = false
     private var accountsReady = false
     private var numberFormatter: NSNumberFormatter?
+    private var accounts: Results<Account>?
+    private var accountsNotificationToken: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,13 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         
         setCurrentSectionId(userDefaults.objectForKey(PreferenceKeys.currentSectionId) as? String)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sectionChangedHandler), name: Notifications.sectionIdChanged, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         
+        sectionReady = false
+        accountsReady = false
     }
     
     deinit {
@@ -117,7 +125,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         
         if sectionId == nil || _sectionId != sectionId! {
             setCurrentSectionId(_sectionId)
-            receiveMainData()
+            refreshMainData()
             sectionChanged()
         }
     }
@@ -127,6 +135,16 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     func setCurrentSectionId(_sectionId: String?) {
         if _sectionId != nil {
             sectionId = _sectionId
+            accounts = try! Realm().objects(Account.self).filter("sectionId == %@", sectionId!)
+            accountsNotificationToken?.stop()
+            accountsNotificationToken = accounts?.addNotificationBlock({changes in
+                objc_sync_enter(self)
+                self.accountsReady = true
+                if self.sectionReady {
+                    self.refreshMainData()
+                }
+                objc_sync_exit(self)
+            })
             
             let _section = try! Realm().objects(Section.self).filter("sectionId == %@", sectionId!)
             
@@ -136,7 +154,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                     objc_sync_enter(self)
                     self.sectionReady = true
                     if self.accountsReady {
-                        self.tableView.reloadData()
+                        self.refreshMainData()
                     }
                     objc_sync_exit(self)
                 })
@@ -156,9 +174,13 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         }
     }
     
+    func mainDataReceived(resultCode: Int) {
+        
+    }
+    
     // MARK: - Abstract methods
     
-    func receiveMainData() {
+    func refreshMainData() {
         preconditionFailure()
     }
     
