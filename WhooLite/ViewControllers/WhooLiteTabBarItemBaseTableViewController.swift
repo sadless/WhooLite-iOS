@@ -11,9 +11,12 @@ import RealmSwift
 
 class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     var sectionId: String?
-    var section: Section?
     
     private var sectionNotificationToken: NotificationToken?
+    private var section: Results<Section>?
+    private var sectionReady = false
+    private var accountsReady = false
+    private var numberFormatter: NSNumberFormatter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +26,16 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        setCurrentSectionId(userDefaults.objectForKey(PreferenceKeys.currentSectionId) as? String)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sectionChangedHandler), name: Notifications.sectionIdChanged, object: nil)
+        
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        sectionNotificationToken?.stop()
     }
 
     override func didReceiveMemoryWarning() {
@@ -116,16 +124,35 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     
     // MARK: - Instance methods
     
-    func setCurrentSectionId(_sectionId: String) {
-        sectionId = _sectionId
-        
-        let _section = try! Realm().objectForPrimaryKey(Section.self, key: sectionId)
-        
-        if _section != nil {
-            if let token = sectionNotificationToken {
-                token.stop()
+    func setCurrentSectionId(_sectionId: String?) {
+        if _sectionId != nil {
+            sectionId = _sectionId
+            
+            let _section = try! Realm().objects(Section.self).filter("sectionId == %@", sectionId!)
+            
+            if _section.count > 0 {
+                sectionNotificationToken?.stop()
+                sectionNotificationToken = _section.addNotificationBlock({changes in
+                    objc_sync_enter(self)
+                    self.sectionReady = true
+                    if self.accountsReady {
+                        self.tableView.reloadData()
+                    }
+                    objc_sync_exit(self)
+                })
+                section = _section
             }
-//            token = _section.addObserver
+            getDataFromSection(_section)
+        }
+    }
+    
+    func getDataFromSection(_section: Results<Section>) {
+        if _section.count > 0 {
+            numberFormatter = NSNumberFormatter.init()
+            numberFormatter?.numberStyle = .CurrencyStyle
+            numberFormatter?.locale = NSLocale.init(localeIdentifier: _section[0].currency)
+        } else {
+            numberFormatter = nil
         }
     }
     
