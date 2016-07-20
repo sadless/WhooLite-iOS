@@ -11,4 +11,6 @@ import UIKit
 class PreferenceKeys: NSObject {
     static let apiKeyFormat = "apiKeyFormat"
     static let currentSectionId = "currentSectionId"
+    static let showSlotNumbers = "showSlotNumbers"
+    static let frequentlyInputSortOrder = "frequentlyInputSortOrder"
 }
