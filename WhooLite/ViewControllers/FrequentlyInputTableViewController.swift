@@ -89,7 +89,7 @@ class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewControl
                     }
                     try! realm.write({
                         realm.add(objects, update: true)
-                        realm.delete(realm.objects(FrequentItem.self).filter("NOT (pk IN %@)", primaryKeys))
+                        realm.delete(realm.objects(FrequentItem.self).filter("sectionId == %@ AND NOT (pk IN %@)", self.sectionId!, primaryKeys))
                     })
                 }
                 self.mainDataReceived(resultCode)

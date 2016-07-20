@@ -209,7 +209,7 @@ class WhooLiteViewController: UITabBarController {
                     }
                     try! realm.write({
                         realm.add(objects, update: true)
-                        realm.delete(realm.objects(Account.self).filter("NOT (pk IN %@)", primaryKeys))
+                        realm.delete(realm.objects(Account.self).filter("sectionId == %@ AND NOT (pk IN %@)", self.currentSectionId!, primaryKeys))
                     })
                 } else {
                     self.accountsReceived(resultCode)
