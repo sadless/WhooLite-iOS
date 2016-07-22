@@ -29,6 +29,8 @@
 		7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164ED1D3888D5009796E4 /* ManualViewController.swift */; };
 		7B3164F11D38A8F2009796E4 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F01D38A8F2009796E4 /* Section.swift */; };
 		7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F31D38B193009796E4 /* NetworkUtility.swift */; };
+		7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B50B1D4248530003FBEF /* NoDataView.swift */; };
+		7B74B50E1D4248660003FBEF /* NoDataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B74B50D1D4248660003FBEF /* NoDataView.xib */; };
 		8D6535CF16FFF66E2EE5DA81 /* Pods_WhooLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072CEC3A6F7D399D5614488 /* Pods_WhooLite.framework */; };
 		AADE68FD96746BC5D7A186DA /* Pods_WhooLiteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */; };
 /* End PBXBuildFile section */
@@ -84,6 +86,8 @@
 		7B3164ED1D3888D5009796E4 /* ManualViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		7B3164F01D38A8F2009796E4 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		7B3164F31D38B193009796E4 /* NetworkUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkUtility.swift; sourceTree = "<group>"; };
+		7B74B50B1D4248530003FBEF /* NoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
+		7B74B50D1D4248660003FBEF /* NoDataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoDataView.xib; sourceTree = "<group>"; };
 		7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B44115AF61DEA10AE1AE255F /* Pods-WhooLiteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteUITests/Pods-WhooLiteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F7FA6F189419308CE60DF987 /* Pods-WhooLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLite.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLite/Pods-WhooLite.release.xcconfig"; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		7B3164A11D3486E4009796E4 /* WhooLite */ = {
 			isa = PBXGroup;
 			children = (
+				7B74B50A1D42482D0003FBEF /* Views */,
 				7B3164F21D38B16F009796E4 /* Utility */,
 				7B3164EF1D38A8CC009796E4 /* RealmObjects */,
 				7B3164D51D378A2F009796E4 /* ViewControllers */,
@@ -229,6 +234,15 @@
 				7B3164F31D38B193009796E4 /* NetworkUtility.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		7B74B50A1D42482D0003FBEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7B74B50B1D4248530003FBEF /* NoDataView.swift */,
+				7B74B50D1D4248660003FBEF /* NoDataView.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8C8ECD095637F631F43D6931 /* Frameworks */ = {
@@ -358,6 +372,7 @@
 				7B3164D41D378956009796E4 /* InfoPlist.strings in Resources */,
 				7B3164AA1D3486E4009796E4 /* Assets.xcassets in Resources */,
 				7B3164A81D3486E4009796E4 /* Main.storyboard in Resources */,
+				7B74B50E1D4248660003FBEF /* NoDataView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -533,6 +548,7 @@
 				7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */,
 				7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */,
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
+				7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */,
 				1B5A3AC51D3DC6AF007ACC4B /* ApiKeys.swift in Sources */,
 				1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */,
 			);
