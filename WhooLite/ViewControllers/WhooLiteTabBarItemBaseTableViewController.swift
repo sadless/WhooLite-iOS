@@ -11,6 +11,8 @@ import RealmSwift
 
 class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     var sectionId: String?
+    var sectionTitles: [String]?
+    var sectionDataCounts: [Int]?
     
     private var section: Results<Section>?
     private var sectionNotificationToken: NotificationToken?
@@ -54,24 +56,26 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        refreshSections()
+        
+        if let titles = sectionTitles {
+            return titles.count
+        } else {
+            return 1
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return sectionDataCounts![section]
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        // Configure the cell...
+        cell.textLabel?.text = dataTitle(indexPath)
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -138,12 +142,17 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
             accounts = try! Realm().objects(Account.self).filter("sectionId == %@", sectionId!)
             accountsNotificationToken?.stop()
             accountsNotificationToken = accounts?.addNotificationBlock({changes in
-                objc_sync_enter(self)
-                self.accountsReady = true
-                if self.sectionReady {
-                    self.refreshMainData()
+                switch changes {
+                case .Initial:
+                    break
+                default:
+                    objc_sync_enter(self)
+                    self.accountsReady = true
+                    if self.sectionReady {
+                        self.refreshMainData()
+                    }
+                    objc_sync_exit(self)
                 }
-                objc_sync_exit(self)
             })
             
             let _section = try! Realm().objects(Section.self).filter("sectionId == %@", sectionId!)
@@ -151,12 +160,17 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
             if _section.count > 0 {
                 sectionNotificationToken?.stop()
                 sectionNotificationToken = _section.addNotificationBlock({changes in
-                    objc_sync_enter(self)
-                    self.sectionReady = true
-                    if self.accountsReady {
-                        self.refreshMainData()
+                    switch changes {
+                    case .Initial:
+                        break
+                    default:
+                        objc_sync_enter(self)
+                        self.sectionReady = true
+                        if self.accountsReady {
+                            self.refreshMainData()
+                        }
+                        objc_sync_exit(self)
                     }
-                    objc_sync_exit(self)
                 })
                 section = _section
             }
@@ -178,6 +192,8 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         
     }
     
+    
+    
     // MARK: - Abstract methods
     
     func refreshMainData() {
@@ -185,6 +201,14 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     }
     
     func sectionChanged() {
+        preconditionFailure()
+    }
+    
+    func refreshSections() {
+        preconditionFailure()
+    }
+    
+    func dataTitle(indexPath: NSIndexPath) -> String {
         preconditionFailure()
     }
 }

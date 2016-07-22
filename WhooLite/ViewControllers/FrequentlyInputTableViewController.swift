@@ -12,10 +12,18 @@ import RealmSwift
 class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewController {
     let frequentItemsUrl = "https://whooing.com/api/frequent_items"
     
+    var searchedTitles: [String]?
+    var frequentItems: Results<FrequentItem>?
+    var frequentItemsNotificationToken: NotificationToken?
+    var sortProperty: String?
+    var sortAscending: Bool?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setSortOrder()
+        sectionChanged()
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,6 +108,92 @@ class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewControl
     }
     
     override func sectionChanged() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let showSlotNumbers = userDefaults.objectForKey(PreferenceKeys.showSlotNumbers) as? [Int]
+        var items = try! Realm().objects(FrequentItem.self).filter("sectionId == %@", sectionId!)
         
+        if showSlotNumbers != nil && showSlotNumbers?.count < 3 {
+            for slotNumber in showSlotNumbers! {
+                items.filter("slotNumber == %d", slotNumber)
+            }
+        }
+        if let titles = searchedTitles {
+            items.filter("title IN %@", titles)
+        }
+        items = items.sorted("slotNumber", ascending: true).sorted(sortProperty!, ascending: sortAscending!)
+        frequentItems = items
+        frequentItemsNotificationToken?.stop()
+        frequentItemsNotificationToken = frequentItems?.addNotificationBlock({changes in
+            self.tableView.reloadData()
+        })
+    }
+    
+    override func refreshSections() {
+        let realm = try! Realm()
+        let items = realm.objects(FrequentItem.self).filter("sectionId == %@", sectionId!).sorted("slotNumber", ascending: true)
+        var needSection = items.count > 0
+        
+        sectionTitles = [String]()
+        sectionDataCounts = [Int]()
+        if items.count > 0 {
+            var slot = items[0].slotNumber
+            var count = 0
+            
+            for item in items {
+                if slot == item.slotNumber {
+                    count += 1
+                } else {
+                    sectionTitles?.append(String.init(format: NSLocalizedString("%1$d번 슬롯", comment: "슬롯 번호"), slot))
+                    sectionDataCounts?.append(count)
+                    slot = item.slotNumber
+                    count = 1
+                }
+            }
+            needSection = sectionTitles?.count > 0
+            if needSection {
+                sectionTitles?.append(String.init(format: NSLocalizedString("%1$d번 슬롯", comment: "슬롯 번호"), slot))
+                sectionDataCounts?.append(count)
+            }
+        }
+        if !needSection {
+            sectionTitles = nil
+            sectionDataCounts?.append(items.count)
+        }
+    }
+    
+    override func dataTitle(indexPath: NSIndexPath) -> String {
+        return itemAtIndexPath(indexPath).title
+    }
+    
+    func setSortOrder() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        switch userDefaults.integerForKey(PreferenceKeys.frequentlyInputSortOrder) {
+        case 0:
+            sortProperty = "sortOrder"
+            sortAscending = true
+        case 1:
+            sortProperty = "useCount"
+            sortAscending = false
+        case 2:
+            sortProperty = "lastUseTime"
+            sortAscending = false
+        default:
+            break
+        }
+    }
+    
+    func itemAtIndexPath(indexPath: NSIndexPath) -> FrequentItem {
+        if sectionTitles == nil {
+            return frequentItems![indexPath.row]
+        }
+        
+        var count = 0
+        
+        for i in 0..<indexPath.section {
+            count += sectionDataCounts![i]
+        }
+        
+        return frequentItems![count + indexPath.row]
     }
 }
