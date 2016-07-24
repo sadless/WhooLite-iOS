@@ -11,6 +11,7 @@ import UIKit
 class NoDataView: UIView {
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     /*
     // Only override drawRect: if you perform custom drawing.

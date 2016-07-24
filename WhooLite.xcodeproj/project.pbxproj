@@ -31,6 +31,9 @@
 		7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F31D38B193009796E4 /* NetworkUtility.swift */; };
 		7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B50B1D4248530003FBEF /* NoDataView.swift */; };
 		7B74B50E1D4248660003FBEF /* NoDataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B74B50D1D4248660003FBEF /* NoDataView.xib */; };
+		7B74B5111D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */; };
+		7B74B5131D45113F0003FBEF /* InputBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */; };
+		7B74B5151D452E740003FBEF /* SectionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */; };
 		8D6535CF16FFF66E2EE5DA81 /* Pods_WhooLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072CEC3A6F7D399D5614488 /* Pods_WhooLite.framework */; };
 		AADE68FD96746BC5D7A186DA /* Pods_WhooLiteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */; };
 /* End PBXBuildFile section */
@@ -88,6 +91,9 @@
 		7B3164F31D38B193009796E4 /* NetworkUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkUtility.swift; sourceTree = "<group>"; };
 		7B74B50B1D4248530003FBEF /* NoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		7B74B50D1D4248660003FBEF /* NoDataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoDataView.xib; sourceTree = "<group>"; };
+		7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputTableViewCell.swift; sourceTree = "<group>"; };
+		7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputBaseTableViewCell.swift; sourceTree = "<group>"; };
+		7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionsTableViewController.swift; sourceTree = "<group>"; };
 		7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B44115AF61DEA10AE1AE255F /* Pods-WhooLiteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteUITests/Pods-WhooLiteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F7FA6F189419308CE60DF987 /* Pods-WhooLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLite.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLite/Pods-WhooLite.release.xcconfig"; sourceTree = "<group>"; };
@@ -160,6 +166,7 @@
 		7B3164A11D3486E4009796E4 /* WhooLite */ = {
 			isa = PBXGroup;
 			children = (
+				7B74B50F1D44E2880003FBEF /* TableViewCells */,
 				7B74B50A1D42482D0003FBEF /* Views */,
 				7B3164F21D38B16F009796E4 /* Utility */,
 				7B3164EF1D38A8CC009796E4 /* RealmObjects */,
@@ -214,6 +221,7 @@
 				7B3164ED1D3888D5009796E4 /* ManualViewController.swift */,
 				7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */,
 				7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */,
+				7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -243,6 +251,15 @@
 				7B74B50D1D4248660003FBEF /* NoDataView.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7B74B50F1D44E2880003FBEF /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */,
+				7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		8C8ECD095637F631F43D6931 /* Frameworks */ = {
@@ -542,10 +559,13 @@
 				7B3164EC1D388692009796E4 /* WhooLiteViewController.swift in Sources */,
 				7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */,
 				7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */,
+				7B74B5131D45113F0003FBEF /* InputBaseTableViewCell.swift in Sources */,
+				7B74B5111D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift in Sources */,
 				7B3164D91D37F569009796E4 /* WhooingKeyValues.swift in Sources */,
 				7B299F8D1D3BD23D00D51FF1 /* Notifications.swift in Sources */,
 				7B3164D21D3785FE009796E4 /* PreferenceKeys.swift in Sources */,
 				7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */,
+				7B74B5151D452E740003FBEF /* SectionsTableViewController.swift in Sources */,
 				7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */,
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
 				7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */,

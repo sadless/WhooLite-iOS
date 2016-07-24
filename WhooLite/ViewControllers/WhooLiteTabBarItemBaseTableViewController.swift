@@ -10,9 +10,13 @@ import UIKit
 import RealmSwift
 
 class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
+    let accountPredicateFormat = "sectionId == %@ AND accountType == %@ AND accountId == %@"
+    
     var sectionId: String?
     var sectionTitles: [String]?
     var sectionDataCounts: [Int]?
+    var receiveFailedText: String?
+    var noDataText: String?
     
     private var section: Results<Section>?
     private var sectionNotificationToken: NotificationToken?
@@ -21,6 +25,9 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     private var numberFormatter: NSNumberFormatter?
     private var accounts: Results<Account>?
     private var accountsNotificationToken: NotificationToken?
+    private var received = false
+    private var failed = false
+    private var realm = try! Realm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +65,31 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         refreshSections()
         
+        if sectionDataCounts?[0] == 0 {
+            if tableView.backgroundView == nil {
+                let nib = NSBundle.mainBundle().loadNibNamed("NoDataView", owner: self, options: nil)
+                
+                tableView.backgroundView = nib[0] as? UIView
+                (tableView.backgroundView as! NoDataView).retryButton.addTarget(self, action: #selector(retryTouched), forControlEvents: .TouchUpInside)
+            }
+            
+            let noDataView = tableView.backgroundView as! NoDataView
+            
+            if failed {
+                noDataView.textLabel.text = receiveFailedText
+            } else if received {
+                noDataView.textLabel.text = noDataText
+            }
+            noDataView.activityIndicator.hidden = failed || received
+            noDataView.textLabel.hidden = !noDataView.activityIndicator.hidden
+            noDataView.retryButton.hidden = !noDataView.activityIndicator.hidden
+            tableView.backgroundView?.hidden = false
+            tableView.separatorStyle = .None
+        } else {
+            tableView.backgroundView?.hidden = true
+            tableView.separatorStyle = .SingleLine
+        }
+        
         if let titles = sectionTitles {
             return titles.count
         } else {
@@ -70,11 +102,77 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! InputBaseTableViewCell
+        let money = dataMoney(indexPath)
+        let leftAccountType = dataLeftAccountType(indexPath)
+        let rightAccountType = dataRightAccountType(indexPath)
 
-        cell.textLabel?.text = dataTitle(indexPath)
+        cell.titleLabel.text = dataTitle(indexPath)
+        if money < WhooingKeyValues.epsilon {
+            cell.moneyLabel.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+        } else {
+            if let formatter = numberFormatter {
+                cell.moneyLabel.text = formatter.stringFromNumber(NSNumber.init(double: money))
+            } else {
+                cell.moneyLabel.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
+            }
+        }
+        if leftAccountType.characters.count > 0 {
+            let leftAccount = realm.objects(Account.self).filter(accountPredicateFormat, sectionId!, leftAccountType, dataLeftAccountId(indexPath)).first
+            var leftAccountTitle: String? = nil
+            
+            if let account = leftAccount {
+                leftAccountTitle = account.title
+            }
+            if let accountTitle = leftAccountTitle {
+                switch leftAccountType {
+                case WhooingKeyValues.assets:
+                    leftAccountTitle  = accountTitle + "+"
+                case WhooingKeyValues.liabilities, WhooingKeyValues.capital:
+                    leftAccountTitle  = accountTitle + "-"
+                default:
+                    break
+                }
+                cell.leftLabel.text = leftAccountTitle!
+            } else {
+                cell.leftLabel.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
+            }
+        } else {
+            cell.leftLabel.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+        }
+        if rightAccountType.characters.count > 0 {
+            let rightAccount = realm.objects(Account.self).filter(accountPredicateFormat, sectionId!, rightAccountType, dataRightAccountId(indexPath)).first
+            var rightAccountTitle: String? = nil
+            
+            if let account = rightAccount {
+                rightAccountTitle = account.title
+            }
+            if let accountTitle = rightAccountTitle {
+                switch rightAccountType {
+                case WhooingKeyValues.assets:
+                    rightAccountTitle  = accountTitle + "-"
+                case WhooingKeyValues.liabilities, WhooingKeyValues.capital:
+                    rightAccountTitle  = accountTitle + "-"
+                default:
+                    break
+                }
+                cell.rightLabel.text = rightAccountTitle!
+            } else {
+                cell.rightLabel.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
+            }
+        } else {
+            cell.rightLabel.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+        }
 
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let titles = sectionTitles {
+            return titles[section]
+        } else {
+            return nil
+        }
     }
 
     /*
@@ -117,8 +215,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+     
     }
     */
 
@@ -139,7 +236,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     func setCurrentSectionId(_sectionId: String?) {
         if _sectionId != nil {
             sectionId = _sectionId
-            accounts = try! Realm().objects(Account.self).filter("sectionId == %@", sectionId!)
+            accounts = realm.objects(Account.self).filter("sectionId == %@", sectionId!)
             accountsNotificationToken?.stop()
             accountsNotificationToken = accounts?.addNotificationBlock({changes in
                 switch changes {
@@ -155,7 +252,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                 }
             })
             
-            let _section = try! Realm().objects(Section.self).filter("sectionId == %@", sectionId!)
+            let _section = realm.objects(Section.self).filter("sectionId == %@", sectionId!)
             
             if _section.count > 0 {
                 sectionNotificationToken?.stop()
@@ -173,6 +270,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                     }
                 })
                 section = _section
+                title = String.init(format: NSLocalizedString("%1$@(%2$@)", comment: "섹션명"), _section[0].title, _section[0].currency)
             }
             getDataFromSection(_section)
         }
@@ -182,17 +280,29 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         if _section.count > 0 {
             numberFormatter = NSNumberFormatter.init()
             numberFormatter?.numberStyle = .CurrencyStyle
-            numberFormatter?.locale = NSLocale.init(localeIdentifier: _section[0].currency)
+            numberFormatter?.currencyCode = _section[0].currency
         } else {
             numberFormatter = nil
         }
     }
     
     func mainDataReceived(resultCode: Int) {
-        
+        if resultCode > 0 {
+            if NetworkUtility.checkResultCodeWithAlert(resultCode) {
+                received = true
+                failed = false
+            } else {
+                failed = true
+            }
+        }
     }
     
-    
+    func retryTouched(sender: AnyObject) {
+        received = false
+        failed = false
+        tableView.reloadData()
+        refreshMainData()
+    }
     
     // MARK: - Abstract methods
     
@@ -209,6 +319,26 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     }
     
     func dataTitle(indexPath: NSIndexPath) -> String {
+        preconditionFailure()
+    }
+    
+    func dataMoney(indexPath: NSIndexPath) -> Double {
+        preconditionFailure()
+    }
+    
+    func dataLeftAccountType(indexPath: NSIndexPath) -> String {
+        preconditionFailure()
+    }
+    
+    func dataLeftAccountId(indexPath: NSIndexPath) -> String {
+        preconditionFailure()
+    }
+    
+    func dataRightAccountType(indexPath: NSIndexPath) -> String {
+        preconditionFailure()
+    }
+    
+    func dataRightAccountId(indexPath: NSIndexPath) -> String {
         preconditionFailure()
     }
 }

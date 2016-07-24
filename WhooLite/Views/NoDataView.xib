@@ -11,8 +11,8 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTe-DL-eVf">
-                    <rect key="frame" x="281" y="271" width="38" height="18"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTe-DL-eVf">
+                    <rect key="frame" x="16" y="271" width="568" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -21,16 +21,30 @@
                     <rect key="frame" x="272" y="305" width="56" height="30"/>
                     <state key="normal" title="다시 시도"/>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Am9-t1-kD4">
+                    <rect key="frame" x="282" y="281" width="37" height="37"/>
+                    <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="iTe-DL-eVf" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-20" id="4r5-Ry-Ajx"/>
                 <constraint firstItem="Eqm-zX-9xB" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="20" id="BTf-HH-neq"/>
+                <constraint firstItem="iTe-DL-eVf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="D5q-7o-PMe"/>
+                <constraint firstAttribute="trailing" secondItem="iTe-DL-eVf" secondAttribute="trailing" constant="16" id="K5d-GZ-fGP"/>
+                <constraint firstItem="Am9-t1-kD4" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="aNc-FN-rTV"/>
+                <constraint firstItem="Am9-t1-kD4" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="k4S-16-rZY"/>
                 <constraint firstItem="iTe-DL-eVf" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="mw5-n8-FDh"/>
                 <constraint firstItem="Eqm-zX-9xB" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="tfH-hM-uLm"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="mw5-n8-FDh"/>
+                </mask>
+            </variation>
             <connections>
+                <outlet property="activityIndicator" destination="Am9-t1-kD4" id="knd-ns-D5b"/>
                 <outlet property="retryButton" destination="Eqm-zX-9xB" id="Ppc-QX-hnZ"/>
                 <outlet property="textLabel" destination="iTe-DL-eVf" id="rmP-Ju-olR"/>
             </connections>

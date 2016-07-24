@@ -38,4 +38,10 @@ class WhooingKeyValues: NSObject {
     
     static let success = 200
     static let group = "group"
+    static let epsilon = 0.0001
+    static let assets = "assets"
+    static let liabilities = "liabilities"
+    static let capital = "capital"
+    static let expenses = "expenses"
+    static let income = "income"
 }

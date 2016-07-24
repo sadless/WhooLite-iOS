@@ -21,9 +21,12 @@ class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        receiveFailedText = NSLocalizedString("자주입력 거래들 항목을 가져오지 못했습니다. 네트워크 상태를 확인하시고 다시 시도해주세요.", comment: "실패")
+        noDataText = NSLocalizedString("자주입력 거래들 항목이 없습니다. 거래내역 탭에서 항목을 만들어보세요!", comment: "데이터 없음")
         setSortOrder()
-        sectionChanged()
+        if sectionId != nil {
+            sectionChanged()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,7 +68,7 @@ class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewControl
                     var i = 0
                     var slotNumber = 1
                     
-                    for key in frequentItems.keys {
+                    for key in frequentItems.keys.sort() {
                         let itemsInSlot = frequentItems[key] as! [[String: AnyObject]]
                         
                         for frequentItem in itemsInSlot {
@@ -129,40 +132,67 @@ class FrequentlyInputTableViewController: WhooLiteTabBarItemBaseTableViewControl
     }
     
     override func refreshSections() {
-        let realm = try! Realm()
-        let items = realm.objects(FrequentItem.self).filter("sectionId == %@", sectionId!).sorted("slotNumber", ascending: true)
-        var needSection = items.count > 0
-        
         sectionTitles = [String]()
         sectionDataCounts = [Int]()
-        if items.count > 0 {
-            var slot = items[0].slotNumber
-            var count = 0
+        
+        var needSection = sectionId != nil
+        
+        if needSection {
+            let realm = try! Realm()
+            let items = realm.objects(FrequentItem.self).filter("sectionId == %@", sectionId!).sorted("slotNumber", ascending: true)
             
-            for item in items {
-                if slot == item.slotNumber {
-                    count += 1
-                } else {
+            needSection = items.count > 0
+            if needSection {
+                var slot = items[0].slotNumber
+                var count = 0
+                
+                for item in items {
+                    if slot == item.slotNumber {
+                        count += 1
+                    } else {
+                        sectionTitles?.append(String.init(format: NSLocalizedString("%1$d번 슬롯", comment: "슬롯 번호"), slot))
+                        sectionDataCounts?.append(count)
+                        slot = item.slotNumber
+                        count = 1
+                    }
+                }
+                needSection = sectionTitles?.count > 0
+                if needSection {
                     sectionTitles?.append(String.init(format: NSLocalizedString("%1$d번 슬롯", comment: "슬롯 번호"), slot))
                     sectionDataCounts?.append(count)
-                    slot = item.slotNumber
-                    count = 1
+                } else {
+                    sectionDataCounts?.append(items.count)
                 }
-            }
-            needSection = sectionTitles?.count > 0
-            if needSection {
-                sectionTitles?.append(String.init(format: NSLocalizedString("%1$d번 슬롯", comment: "슬롯 번호"), slot))
-                sectionDataCounts?.append(count)
             }
         }
         if !needSection {
             sectionTitles = nil
-            sectionDataCounts?.append(items.count)
+            sectionDataCounts?.append(0)
         }
     }
     
     override func dataTitle(indexPath: NSIndexPath) -> String {
         return itemAtIndexPath(indexPath).title
+    }
+    
+    override func dataMoney(indexPath: NSIndexPath) -> Double {
+        return itemAtIndexPath(indexPath).money
+    }
+    
+    override func dataLeftAccountType(indexPath: NSIndexPath) -> String {
+        return itemAtIndexPath(indexPath).leftAccountType
+    }
+    
+    override func dataLeftAccountId(indexPath: NSIndexPath) -> String {
+        return itemAtIndexPath(indexPath).leftAccountId
+    }
+    
+    override func dataRightAccountType(indexPath: NSIndexPath) -> String {
+        return itemAtIndexPath(indexPath).rightAccountType
+    }
+    
+    override func dataRightAccountId(indexPath: NSIndexPath) -> String {
+        return itemAtIndexPath(indexPath).rightAccountId
     }
     
     func setSortOrder() {
