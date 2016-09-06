@@ -35,6 +35,8 @@ class WhooingKeyValues: NSObject {
     static let leftAccountId = "l_account_id"
     static let rightAccountType = "r_account"
     static let rightAccountId = "r_account_id"
+    static let entryId = "entry_id"
+    static let entryDate = "entry_date"
     
     static let success = 200
     static let group = "group"

@@ -13,10 +13,11 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     let accountPredicateFormat = "sectionId == %@ AND accountType == %@ AND accountId == %@"
     
     var sectionId: String?
-    var sectionTitles: [String]?
-    var sectionDataCounts: [Int]?
+    var sectionTitles = [String]()
+    var sectionDataCounts = [Int]()
     var receiveFailedText: String?
     var noDataText: String?
+    var searching = false
     
     private var section: Results<Section>?
     private var sectionNotificationToken: NotificationToken?
@@ -41,6 +42,12 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         
         setCurrentSectionId(userDefaults.objectForKey(PreferenceKeys.currentSectionId) as? String)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sectionChangedHandler), name: Notifications.sectionIdChanged, object: nil)
+        clearsSelectionOnViewWillAppear = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.toolbarHidden = true
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -65,7 +72,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         refreshSections()
         
-        if sectionDataCounts?[0] == 0 {
+        if sectionDataCounts.count == 0 {
             if tableView.backgroundView == nil {
                 let nib = NSBundle.mainBundle().loadNibNamed("NoDataView", owner: self, options: nil)
                 
@@ -82,7 +89,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
             }
             noDataView.activityIndicator.hidden = failed || received
             noDataView.textLabel.hidden = !noDataView.activityIndicator.hidden
-            noDataView.retryButton.hidden = !noDataView.activityIndicator.hidden
+            noDataView.retryButton.hidden = !noDataView.activityIndicator.hidden || searching
             tableView.backgroundView?.hidden = false
             tableView.separatorStyle = .None
         } else {
@@ -90,15 +97,19 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
             tableView.separatorStyle = .SingleLine
         }
         
-        if let titles = sectionTitles {
-            return titles.count
+        if sectionTitles.count > 0 {
+            return sectionTitles.count
         } else {
             return 1
         }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sectionDataCounts![section]
+        if sectionDataCounts.count == 0 {
+            return 0
+        } else {
+            return sectionDataCounts[section]
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -117,7 +128,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                 cell.moneyLabel.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
             }
         }
-        if leftAccountType.characters.count > 0 {
+        if !leftAccountType.isEmpty {
             let leftAccount = realm.objects(Account.self).filter(accountPredicateFormat, sectionId!, leftAccountType, dataLeftAccountId(indexPath)).first
             var leftAccountTitle: String? = nil
             
@@ -140,7 +151,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
         } else {
             cell.leftLabel.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
         }
-        if rightAccountType.characters.count > 0 {
+        if !rightAccountType.isEmpty {
             let rightAccount = realm.objects(Account.self).filter(accountPredicateFormat, sectionId!, rightAccountType, dataRightAccountId(indexPath)).first
             var rightAccountTitle: String? = nil
             
@@ -168,8 +179,8 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if let titles = sectionTitles {
-            return titles[section]
+        if sectionTitles.count > 0 {
+            return sectionTitles[section]
         } else {
             return nil
         }
@@ -270,7 +281,12 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                     }
                 })
                 section = _section
+
+                let tabBarItemTitle = tabBarController?.tabBar.items![0].title
+                
                 title = String.init(format: NSLocalizedString("%1$@(%2$@)", comment: "섹션명"), _section[0].title, _section[0].currency)
+                parentViewController?.title = title
+                tabBarController?.tabBar.items![0].title = tabBarItemTitle
             }
             getDataFromSection(_section)
         }

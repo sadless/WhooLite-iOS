@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: NSObjectProtocol {
-    func logined(apiKeyFormat: String)
+    func didLogin(apiKeyFormat: String)
 }
 
 class LoginViewController: UIViewController, UIWebViewDelegate {
@@ -71,8 +71,8 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
         urlComponents.queryItems = [NSURLQueryItem.init(name: WhooingKeyValues.appId, value: ApiKeys.appId),
             NSURLQueryItem.init(name: WhooingKeyValues.appSecret, value: ApiKeys.appSecret)]
         NSURLSession.sharedSession().dataTaskWithURL(urlComponents.URL!, completionHandler: {(data, response, error) in
-            if let resultData = data {
-                let json = try! NSJSONSerialization.JSONObjectWithData(resultData, options: []) as! [String: AnyObject]
+            if error == nil {
+                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                 let urlComponents = NSURLComponents.init(string: self.authorizeUrl)!
                 var queryItems = urlComponents.queryItems!
                 
@@ -101,8 +101,8 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
                                     NSURLQueryItem.init(name: WhooingKeyValues.token, value: token),
                                     NSURLQueryItem.init(name: WhooingKeyValues.pin, value: pin)]
         NSURLSession.sharedSession().dataTaskWithURL(urlComponents.URL!, completionHandler: {(data, response, error) in
-            if let resultData = data {
-                let json = try! NSJSONSerialization.JSONObjectWithData(resultData, options: []) as! [String: AnyObject]
+            if error != nil {
+                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                 let appName = NSBundle.mainBundle().localizedInfoDictionary?["CFBundleDisplayName"] as! String
                 var apiKeyFormat = WhooingKeyValues.appId + "=" + ApiKeys.appId + ","
                 
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
                 apiKeyFormat += WhooingKeyValues.timestamp + "=%f"
                 dispatch_async(dispatch_get_main_queue(), {
                     self.dismissViewControllerAnimated(true, completion: {
-                        self.delegate?.logined(apiKeyFormat)
+                        self.delegate?.didLogin(apiKeyFormat)
                     })
                 })
             } else {

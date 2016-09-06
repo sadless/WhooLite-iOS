@@ -29,11 +29,25 @@
 		7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164ED1D3888D5009796E4 /* ManualViewController.swift */; };
 		7B3164F11D38A8F2009796E4 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F01D38A8F2009796E4 /* Section.swift */; };
 		7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F31D38B193009796E4 /* NetworkUtility.swift */; };
+		7B465FF71D4906A0007888C5 /* SoundSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FF61D4906A0007888C5 /* SoundSearcher.swift */; };
+		7B465FF91D4C6708007888C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B465FF81D4C6708007888C5 /* GoogleService-Info.plist */; };
+		7B465FFB1D4E0756007888C5 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FFA1D4E0756007888C5 /* Entry.swift */; };
+		7B465FFD1D4E0CD0007888C5 /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */; };
+		7B51F59B1D54BE3100670B04 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */; };
+		7B51F59D1D54DE6A00670B04 /* DetailBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59C1D54DE6A00670B04 /* DetailBaseTableViewController.swift */; };
+		7B51F59F1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */; };
+		7B51F5A11D5751A500670B04 /* SelectableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F5A01D5751A500670B04 /* SelectableTableViewCell.swift */; };
 		7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B50B1D4248530003FBEF /* NoDataView.swift */; };
 		7B74B50E1D4248660003FBEF /* NoDataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B74B50D1D4248660003FBEF /* NoDataView.xib */; };
 		7B74B5111D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */; };
 		7B74B5131D45113F0003FBEF /* InputBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */; };
 		7B74B5151D452E740003FBEF /* SectionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */; };
+		7B75326C1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */; };
+		7B75326E1D7B296200ABB451 /* DetailBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326D1D7B296200ABB451 /* DetailBaseViewController.swift */; };
+		7B7532701D7B4DC000ABB451 /* SelectAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */; };
+		7BC55BF21D77433700828F61 /* WithAdmobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */; };
+		7BC55BF41D7749EE00828F61 /* FrequentlyInputDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF31D7749EE00828F61 /* FrequentlyInputDetailViewController.swift */; };
+		7BC55BF81D79E60000828F61 /* FrequentlyInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */; };
 		8D6535CF16FFF66E2EE5DA81 /* Pods_WhooLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072CEC3A6F7D399D5614488 /* Pods_WhooLite.framework */; };
 		AADE68FD96746BC5D7A186DA /* Pods_WhooLiteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */; };
 /* End PBXBuildFile section */
@@ -89,11 +103,25 @@
 		7B3164ED1D3888D5009796E4 /* ManualViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		7B3164F01D38A8F2009796E4 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		7B3164F31D38B193009796E4 /* NetworkUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkUtility.swift; sourceTree = "<group>"; };
+		7B465FF61D4906A0007888C5 /* SoundSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundSearcher.swift; sourceTree = "<group>"; };
+		7B465FF81D4C6708007888C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7B465FFA1D4E0756007888C5 /* Entry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
+		7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		7B51F59C1D54DE6A00670B04 /* DetailBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBaseTableViewController.swift; sourceTree = "<group>"; };
+		7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputDetailTableViewController.swift; sourceTree = "<group>"; };
+		7B51F5A01D5751A500670B04 /* SelectableTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableTableViewCell.swift; sourceTree = "<group>"; };
 		7B74B50B1D4248530003FBEF /* NoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		7B74B50D1D4248660003FBEF /* NoDataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoDataView.xib; sourceTree = "<group>"; };
 		7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputTableViewCell.swift; sourceTree = "<group>"; };
 		7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputBaseTableViewCell.swift; sourceTree = "<group>"; };
 		7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionsTableViewController.swift; sourceTree = "<group>"; };
+		7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectSlotNumberTableViewController.swift; sourceTree = "<group>"; };
+		7B75326D1D7B296200ABB451 /* DetailBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBaseViewController.swift; sourceTree = "<group>"; };
+		7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectAccountTableViewController.swift; sourceTree = "<group>"; };
+		7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithAdmobViewController.swift; sourceTree = "<group>"; };
+		7BC55BF31D7749EE00828F61 /* FrequentlyInputDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputDetailViewController.swift; sourceTree = "<group>"; };
+		7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputViewController.swift; sourceTree = "<group>"; };
 		7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B44115AF61DEA10AE1AE255F /* Pods-WhooLiteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteUITests/Pods-WhooLiteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F7FA6F189419308CE60DF987 /* Pods-WhooLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLite.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLite/Pods-WhooLite.release.xcconfig"; sourceTree = "<group>"; };
@@ -179,6 +207,7 @@
 				7B3164AE1D3486E4009796E4 /* Info.plist */,
 				7B3164D31D378956009796E4 /* InfoPlist.strings */,
 				7B3164E31D380BD3009796E4 /* WhooLite-Bridging-Header.h */,
+				7B465FF81D4C6708007888C5 /* GoogleService-Info.plist */,
 			);
 			path = WhooLite;
 			sourceTree = "<group>";
@@ -219,9 +248,17 @@
 				7B3164E91D38102A009796E4 /* WelcomeViewController.swift */,
 				7B3164EB1D388692009796E4 /* WhooLiteViewController.swift */,
 				7B3164ED1D3888D5009796E4 /* ManualViewController.swift */,
+				7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */,
 				7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */,
+				7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */,
 				7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */,
 				7B74B5141D452E740003FBEF /* SectionsTableViewController.swift */,
+				7B75326D1D7B296200ABB451 /* DetailBaseViewController.swift */,
+				7B51F59C1D54DE6A00670B04 /* DetailBaseTableViewController.swift */,
+				7BC55BF31D7749EE00828F61 /* FrequentlyInputDetailViewController.swift */,
+				7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */,
+				7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */,
+				7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -232,6 +269,7 @@
 				7B3164F01D38A8F2009796E4 /* Section.swift */,
 				7B299F841D3B9C6B00D51FF1 /* Account.swift */,
 				1B5A3AC61D3E197F007ACC4B /* FrequentItem.swift */,
+				7B465FFA1D4E0756007888C5 /* Entry.swift */,
 			);
 			path = RealmObjects;
 			sourceTree = "<group>";
@@ -240,6 +278,8 @@
 			isa = PBXGroup;
 			children = (
 				7B3164F31D38B193009796E4 /* NetworkUtility.swift */,
+				7B465FF61D4906A0007888C5 /* SoundSearcher.swift */,
+				7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -258,6 +298,8 @@
 			children = (
 				7B74B5101D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift */,
 				7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */,
+				7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */,
+				7B51F5A01D5751A500670B04 /* SelectableTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -390,6 +432,7 @@
 				7B3164AA1D3486E4009796E4 /* Assets.xcassets in Resources */,
 				7B3164A81D3486E4009796E4 /* Main.storyboard in Resources */,
 				7B74B50E1D4248660003FBEF /* NoDataView.xib in Resources */,
+				7B465FF91D4C6708007888C5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,22 +595,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B465FFB1D4E0756007888C5 /* Entry.swift in Sources */,
+				7BC55BF41D7749EE00828F61 /* FrequentlyInputDetailViewController.swift in Sources */,
 				7B3164F11D38A8F2009796E4 /* Section.swift in Sources */,
+				7B75326E1D7B296200ABB451 /* DetailBaseViewController.swift in Sources */,
 				7B299F851D3B9C6B00D51FF1 /* Account.swift in Sources */,
+				7B51F59B1D54BE3100670B04 /* TextFieldTableViewCell.swift in Sources */,
 				7B299F871D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift in Sources */,
 				7B3164D71D37F1C7009796E4 /* LoginViewController.swift in Sources */,
+				7BC55BF21D77433700828F61 /* WithAdmobViewController.swift in Sources */,
+				7B51F59D1D54DE6A00670B04 /* DetailBaseTableViewController.swift in Sources */,
 				7B3164EC1D388692009796E4 /* WhooLiteViewController.swift in Sources */,
 				7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */,
 				7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */,
+				7B51F59F1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift in Sources */,
+				7B51F5A11D5751A500670B04 /* SelectableTableViewCell.swift in Sources */,
+				7B75326C1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift in Sources */,
 				7B74B5131D45113F0003FBEF /* InputBaseTableViewCell.swift in Sources */,
+				7BC55BF81D79E60000828F61 /* FrequentlyInputViewController.swift in Sources */,
 				7B74B5111D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift in Sources */,
 				7B3164D91D37F569009796E4 /* WhooingKeyValues.swift in Sources */,
 				7B299F8D1D3BD23D00D51FF1 /* Notifications.swift in Sources */,
+				7B7532701D7B4DC000ABB451 /* SelectAccountTableViewController.swift in Sources */,
 				7B3164D21D3785FE009796E4 /* PreferenceKeys.swift in Sources */,
 				7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */,
+				7B465FFD1D4E0CD0007888C5 /* DataUtility.swift in Sources */,
 				7B74B5151D452E740003FBEF /* SectionsTableViewController.swift in Sources */,
 				7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */,
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
+				7B465FF71D4906A0007888C5 /* SoundSearcher.swift in Sources */,
 				7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */,
 				1B5A3AC51D3DC6AF007ACC4B /* ApiKeys.swift in Sources */,
 				1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */,

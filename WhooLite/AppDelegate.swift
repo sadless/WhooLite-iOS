@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = window?.rootViewController?.storyboard?.instantiateViewControllerWithIdentifier("login")
         }
         UINavigationBar.appearance().barTintColor = UIColor.init(red: 0xFF / 255.0, green: 0xEB / 255.0, blue: 0x3B / 255.0, alpha: 1)
+        FIRApp.configure()
         
         return true
     }

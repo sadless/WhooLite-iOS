@@ -35,7 +35,7 @@ class WelcomeViewController: UIViewController, LoginViewControllerDelegate {
     
     // MARK: - LoginViewControllerDelegate methods
     
-    func logined(apiKeyFormat: String) {
+    func didLogin(apiKeyFormat: String) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
         userDefaults.setObject(apiKeyFormat, forKey: PreferenceKeys.apiKeyFormat)

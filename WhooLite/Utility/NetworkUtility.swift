@@ -9,6 +9,11 @@
 import UIKit
 
 class NetworkUtility: NSObject {
+    static let sectionsUrl = "https://whooing.com/api/sections"
+    static let accountsUrl = "https://whooing.com/api/accounts"
+    static let frequentItemsUrl = "https://whooing.com/api/frequent_items"
+    static let entriesUrl = "https://whooing.com/api/entries"
+    
     static func requestForApiCall(url: NSURL, method: String, params: [String: String]?) -> NSURLRequest {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let apiKey = String.init(format: userDefaults.objectForKey(PreferenceKeys.apiKeyFormat) as! String, NSDate.init().timeIntervalSince1970)

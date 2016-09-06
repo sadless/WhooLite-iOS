@@ -9,10 +9,7 @@
 import UIKit
 import RealmSwift
 
-class WhooLiteViewController: UITabBarController {
-    private let sectionsUrl = "https://whooing.com/api/sections"
-    private let accountsUrl = "https://whooing.com/api/accounts"
-    
+class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate {
     private var sections: Results<Section>?
     private var sectionsNotificationToken: NotificationToken?
     private var currentSectionId: String?
@@ -56,12 +53,12 @@ class WhooLiteViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        receiveSectionsWithDefault()
-        if currentSectionId != nil {
-            receiveAccounts()
-        }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+//        receiveSectionsWithDefault()
+//        if currentSectionId != nil {
+//            receiveAccounts()
+//        }
     }
 
     /*
@@ -80,12 +77,12 @@ class WhooLiteViewController: UITabBarController {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
         if userDefaults.objectForKey(PreferenceKeys.currentSectionId) == nil {
-            var url = NSURL.init(string: sectionsUrl)!
+            var url = NSURL.init(string: NetworkUtility.sectionsUrl)!
             
             url = url.URLByAppendingPathComponent("default.json")
             NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
-                if let resultData = data {
-                    let json = try! NSJSONSerialization.JSONObjectWithData(resultData, options: []) as! [String: AnyObject]
+                if error == nil {
+                    let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                     let resultCode = json[WhooingKeyValues.code] as! Int
                     
                     if resultCode == WhooingKeyValues.success {
@@ -107,12 +104,12 @@ class WhooLiteViewController: UITabBarController {
     }
     
     private func receiveSections() {
-        var url = NSURL.init(string: sectionsUrl)!
+        var url = NSURL.init(string: NetworkUtility.sectionsUrl)!
         
         url = url.URLByAppendingPathExtension("json_array")
         NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
-            if let resultData = data {
-                let json = try! NSJSONSerialization.JSONObjectWithData(resultData, options: []) as! [String: AnyObject]
+            if error == nil {
+                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                 let resultCode = json[WhooingKeyValues.code] as! Int
                 
                 if resultCode == WhooingKeyValues.success {
@@ -166,7 +163,7 @@ class WhooLiteViewController: UITabBarController {
     }
     
     private func receiveAccounts() {
-        var url = NSURL.init(string: accountsUrl)!
+        var url = NSURL.init(string: NetworkUtility.accountsUrl)!
         
         url = url.URLByAppendingPathExtension("json_array")
         
@@ -177,8 +174,8 @@ class WhooLiteViewController: UITabBarController {
         urlComponents.queryItems = [NSURLQueryItem.init(name: WhooingKeyValues.sectionId, value: currentSectionId),
                                     NSURLQueryItem.init(name: WhooingKeyValues.startDate, value: dateFormatter.stringFromDate(NSDate.init()))]
         NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(urlComponents.URL!, method: "GET", params: nil), completionHandler: {(data, response, error) in
-            if let resultData = data {
-                let json = try! NSJSONSerialization.JSONObjectWithData(resultData, options: []) as! [String: AnyObject]
+            if error == nil {
+                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                 let resultCode = json[WhooingKeyValues.code] as! Int
                 
                 if resultCode == WhooingKeyValues.success {
@@ -227,5 +224,19 @@ class WhooLiteViewController: UITabBarController {
                 NetworkUtility.checkResultCodeWithAlert(resultCode)
             }
         })
+    }
+    
+    // MARK: - UINavigationControllerDelegate methods
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        if let vc = viewController as? WithAdmobViewController {
+            if vc.embeddedViewController is WhooLiteTabBarItemBaseTableViewController {
+                receiveSectionsWithDefault()
+                if currentSectionId != nil {
+                    receiveAccounts()
+                }
+
+            }
+        }
     }
 }
