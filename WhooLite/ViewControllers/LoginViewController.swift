@@ -101,7 +101,7 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
                                     NSURLQueryItem.init(name: WhooingKeyValues.token, value: token),
                                     NSURLQueryItem.init(name: WhooingKeyValues.pin, value: pin)]
         NSURLSession.sharedSession().dataTaskWithURL(urlComponents.URL!, completionHandler: {(data, response, error) in
-            if error != nil {
+            if error == nil {
                 let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
                 let appName = NSBundle.mainBundle().localizedInfoDictionary?["CFBundleDisplayName"] as! String
                 var apiKeyFormat = WhooingKeyValues.appId + "=" + ApiKeys.appId + ","

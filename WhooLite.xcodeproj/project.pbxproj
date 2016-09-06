@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1183229F94438EAA042813FB /* Pods_WhooLiteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C633ACEA05E8F7D61B99F51 /* Pods_WhooLiteUITests.framework */; };
-		1B5A3AC51D3DC6AF007ACC4B /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5A3AC41D3DC6AF007ACC4B /* ApiKeys.swift */; };
 		1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5A3AC61D3E197F007ACC4B /* FrequentItem.swift */; };
+		1BB3C06F1D7EEA3A0067088B /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB3C06E1D7EEA3A0067088B /* ApiKeys.swift */; };
 		7B299F851D3B9C6B00D51FF1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F841D3B9C6B00D51FF1 /* Account.swift */; };
 		7B299F871D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */; };
 		7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */; };
@@ -71,8 +71,8 @@
 
 /* Begin PBXFileReference section */
 		17D81DFAA2C8F32B6DB344F9 /* Pods-WhooLite.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLite.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLite/Pods-WhooLite.debug.xcconfig"; sourceTree = "<group>"; };
-		1B5A3AC41D3DC6AF007ACC4B /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		1B5A3AC61D3E197F007ACC4B /* FrequentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentItem.swift; sourceTree = "<group>"; };
+		1BB3C06E1D7EEA3A0067088B /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		3072CEC3A6F7D399D5614488 /* Pods_WhooLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C633ACEA05E8F7D61B99F51 /* Pods_WhooLiteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72B04AC8B4E2374A355EE0C1 /* Pods-WhooLiteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteTests/Pods-WhooLiteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 				7B3164D11D3785FE009796E4 /* PreferenceKeys.swift */,
 				7B3164D81D37F569009796E4 /* WhooingKeyValues.swift */,
 				7B299F8C1D3BD23D00D51FF1 /* Notifications.swift */,
-				1B5A3AC41D3DC6AF007ACC4B /* ApiKeys.swift */,
+				1BB3C06E1D7EEA3A0067088B /* ApiKeys.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -480,7 +480,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6622FC1E4FEF54233EB707E3 /* [CP] Copy Pods Resources */ = {
@@ -510,7 +510,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		75DBE55391961C66E38A1822 /* [CP] Embed Pods Frameworks */ = {
@@ -585,7 +585,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -625,7 +625,7 @@
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
 				7B465FF71D4906A0007888C5 /* SoundSearcher.swift in Sources */,
 				7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */,
-				1B5A3AC51D3DC6AF007ACC4B /* ApiKeys.swift in Sources */,
+				1BB3C06F1D7EEA3A0067088B /* ApiKeys.swift in Sources */,
 				1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

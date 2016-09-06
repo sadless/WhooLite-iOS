@@ -184,8 +184,9 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
                     var objects = [Account]()
                     var primaryKeys = [String]()
                     var i = 0
+                    let keys = [WhooingKeyValues.assets, WhooingKeyValues.liabilities, WhooingKeyValues.capital, WhooingKeyValues.income, WhooingKeyValues.expenses]
                     
-                    for key in accounts.keys {
+                    for key in keys {
                         let itemsInAccountType = accounts[key] as! [[String: AnyObject]]
                         
                         for account in itemsInAccountType {

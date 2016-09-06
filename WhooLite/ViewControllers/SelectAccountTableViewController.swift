@@ -31,14 +31,18 @@ class SelectAccountTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var excludeType: String
 
         switch direction! {
         case .Left:
             title = NSLocalizedString("왼쪽", comment: "왼쪽")
+            excludeType = WhooingKeyValues.income
         case .Right:
             title = NSLocalizedString("오른쪽", comment: "오른쪽")
+            excludeType = WhooingKeyValues.expenses
         }
-        accounts = try! Realm().objects(Account.self).filter("sectionId == %@", sectionId!).sorted("sortOrder", ascending: true)
+        accounts = try! Realm().objects(Account.self).filter("sectionId == %@ AND accountType != %@", sectionId!, excludeType).sorted("sortOrder", ascending: true)
         accountsToken = accounts?.addNotificationBlock({changes in
             switch changes {
             case .Initial:
@@ -61,8 +65,25 @@ class SelectAccountTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        for account in accounts! {
+        accountTypes.removeAll()
+        accountTypeCounts.removeAll()
+        
+        if accounts?.count > 0 {
+            var accountType = accounts![0].accountType
+            var count = 0
             
+            for account in accounts! {
+                if accountType == account.accountType {
+                    count += 1
+                } else {
+                    accountTypes.append(accountType)
+                    accountTypeCounts.append(count)
+                    accountType = account.accountType
+                    count = 1
+                }
+            }
+            accountTypes.append(accountType)
+            accountTypeCounts.append(count)
         }
         
         return accountTypes.count + 1
@@ -73,19 +94,72 @@ class SelectAccountTableViewController: UITableViewController {
         case 0:
             return 1
         default:
-            return 0
+            if section == accountTypeCounts.count {
+                return accountTypeCounts[section - 1] + 1
+            } else {
+                return accountTypeCounts[section - 1]
+            }
         }
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        // Configure the cell...
+        if indexPath.section == accountTypes.count && indexPath.row == accountTypeCounts[indexPath.section - 1] - 1 {
+            cell.textLabel!.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
+            cell.detailTextLabel!.text = nil
+        } else {
+            cell.textLabel!.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+            cell.detailTextLabel!.text = nil
+        }
 
         return cell
     }
-    */
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return nil
+        default:
+            let accountType = accountTypes[section - 1]
+            var sectionTitle = ""
+            
+            switch accountType {
+            case WhooingKeyValues.assets:
+                sectionTitle = NSLocalizedString("자산", comment: "자산")
+                switch direction! {
+                case .Left:
+                    sectionTitle += "+"
+                case .Right:
+                    sectionTitle += "-"
+                }
+            case WhooingKeyValues.liabilities:
+                sectionTitle = NSLocalizedString("부채", comment: "부채")
+                switch direction! {
+                case .Left:
+                    sectionTitle += "-"
+                case .Right:
+                    sectionTitle += "+"
+                }
+            case WhooingKeyValues.capital:
+                sectionTitle = NSLocalizedString("순자산", comment: "순자산")
+                switch direction! {
+                case .Left:
+                    sectionTitle += "-"
+                case .Right:
+                    sectionTitle += "+"
+                }
+            case WhooingKeyValues.expenses:
+                sectionTitle = NSLocalizedString("비용", comment: "비용")
+            case WhooingKeyValues.income:
+                sectionTitle = NSLocalizedString("수익", comment: "수익")
+            default:
+                break
+            }
+            
+            return sectionTitle
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
