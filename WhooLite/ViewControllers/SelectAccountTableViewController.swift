@@ -105,13 +105,19 @@ class SelectAccountTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
-        if indexPath.section == accountTypes.count && indexPath.row == accountTypeCounts[indexPath.section - 1] - 1 {
+        if indexPath.section == 0 {
+            cell.textLabel!.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+            cell.detailTextLabel!.text = nil
+        } else if indexPath.section == accountTypes.count && indexPath.row == accountTypeCounts[indexPath.section - 1] {
             cell.textLabel!.text = NSLocalizedString("(알 수 없음)", comment: "알 수 없음")
             cell.detailTextLabel!.text = nil
         } else {
-            cell.textLabel!.text = NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
-            cell.detailTextLabel!.text = nil
+            let account = itemAtIndexPath(indexPath)
+            
+            cell.textLabel!.text = addSign(account.title, accountType: account.accountType)
+            cell.detailTextLabel!.text = account.memo
         }
+        cell.layoutIfNeeded()
 
         return cell
     }
@@ -206,4 +212,41 @@ class SelectAccountTableViewController: UITableViewController {
     }
     */
 
+    // MARK: - Instance methods
+    
+    func itemAtIndexPath(indexPath: NSIndexPath) -> Account {
+        let indexPathSection = indexPath.section - 1
+        var count = 0
+        
+        for i in 0..<indexPathSection {
+            count += accountTypeCounts[i]
+        }
+        
+        return accounts![count + indexPath.row]
+    }
+    
+    func addSign(text: String, accountType: String) -> String {
+        var retVal = text
+        
+        switch accountType {
+        case WhooingKeyValues.assets:
+            switch direction! {
+            case .Left:
+                retVal += "+"
+            case .Right:
+                retVal += "-"
+            }
+        case WhooingKeyValues.liabilities, WhooingKeyValues.capital:
+            switch direction! {
+            case .Left:
+                retVal += "-"
+            case .Right:
+                retVal += "+"
+            }
+        default:
+            break
+        }
+        
+        return retVal
+    }
 }
