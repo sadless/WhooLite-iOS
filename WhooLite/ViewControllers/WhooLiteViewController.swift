@@ -10,26 +10,31 @@ import UIKit
 import RealmSwift
 
 class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate {
-    private var sections: Results<Section>?
-    private var sectionsNotificationToken: NotificationToken?
-    private var currentSectionId: String?
+    fileprivate var sections: Results<Section>?
+    fileprivate var sectionsNotificationToken: NotificationToken?
+    fileprivate var currentSectionId: String?
+    fileprivate var frequentItemsNotificationToken: NotificationToken?
+    fileprivate var entriesNotificationToken: NotificationToken?
+
+    var isSectionReceived = false
+    var isAccountReceived = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        sections = try! Realm().objects(Section.self).sorted("sortOrder", ascending: true)
+        sections = try! Realm().objects(Section.self).sorted(byProperty: "sortOrder", ascending: true)
         sectionsNotificationToken = sections?.addNotificationBlock({changes in
-            if self.sections?.count > 0 {
+            if (self.sections?.count)! > 0 {
                 var sectionChanged = false
                 
                 if self.currentSectionId == nil {
-                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                    let userDefaults = UserDefaults.standard
                     
-                    self.currentSectionId = userDefaults.objectForKey(PreferenceKeys.currentSectionId) as? String
+                    self.currentSectionId = userDefaults.object(forKey: PreferenceKeyValues.currentSectionId) as? String
                     self.receiveAccounts()
                     sectionChanged = true
                 } else {
-                    let section = try! Realm().objectForPrimaryKey(Section.self, key: self.currentSectionId!)
+                    let section = try! Realm().object(ofType: Section.self, forPrimaryKey: self.currentSectionId!)
                     
                     if section == nil {
                         self.currentSectionId = self.sections?[0].sectionId
@@ -38,27 +43,33 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
                     }
                 }
                 if sectionChanged {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.sectionIdChanged, object: nil, userInfo: [Notifications.sectionId: self.currentSectionId!])
+                    let userDefaults = UserDefaults.standard
+                    
+                    userDefaults.set(self.currentSectionId!, forKey: PreferenceKeyValues.currentSectionId)
+                    userDefaults.synchronize()
+                    self.restartNotificationTokens()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notifications.sectionIdChanged), object: nil, userInfo: [Notifications.sectionId: self.currentSectionId!])
                 }
             }
         })
+        NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name.init(Notifications.logout), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sectionIdChanged), name: NSNotification.Name.init(Notifications.sectionIdChanged), object: nil)
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        appDelegate.mainViewController = self
     }
     
     deinit {
         sectionsNotificationToken?.stop()
+        frequentItemsNotificationToken?.stop()
+        entriesNotificationToken?.stop()
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-//        receiveSectionsWithDefault()
-//        if currentSectionId != nil {
-//            receiveAccounts()
-//        }
     }
 
     /*
@@ -73,22 +84,22 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
 
     // MARK: - Instance methods
     
-    private func receiveSectionsWithDefault() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+    fileprivate func receiveSectionsWithDefault() {
+        let userDefaults = UserDefaults.standard
         
-        if userDefaults.objectForKey(PreferenceKeys.currentSectionId) == nil {
-            var url = NSURL.init(string: NetworkUtility.sectionsUrl)!
+        if userDefaults.object(forKey: PreferenceKeyValues.currentSectionId) == nil {
+            var url = URL.init(string: NetworkUtility.sectionsUrl)!
             
-            url = url.URLByAppendingPathComponent("default.json")
-            NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
+            url = url.appendingPathComponent("default.json")
+            URLSession.shared.dataTask(with: NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
                 if error == nil {
-                    let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
+                    let json = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
                     let resultCode = json[WhooingKeyValues.code] as! Int
                     
                     if resultCode == WhooingKeyValues.success {
                         let resultItem = json[WhooingKeyValues.result] as! [String: AnyObject]
                         
-                        userDefaults.setObject(resultItem[WhooingKeyValues.sectionId], forKey: PreferenceKeys.currentSectionId)
+                        userDefaults.set(resultItem[WhooingKeyValues.sectionId], forKey: PreferenceKeyValues.currentSectionId)
                         userDefaults.synchronize()
                         self.receiveSections()
                     } else {
@@ -103,13 +114,13 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
         }
     }
     
-    private func receiveSections() {
-        var url = NSURL.init(string: NetworkUtility.sectionsUrl)!
+    fileprivate func receiveSections() {
+        var url = URL.init(string: NetworkUtility.sectionsUrl)!
         
-        url = url.URLByAppendingPathExtension("json_array")
-        NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
+        url = url.appendingPathExtension("json_array")
+        URLSession.shared.dataTask(with: NetworkUtility.requestForApiCall(url, method: "GET", params: nil), completionHandler: {(data, response, error) in
             if error == nil {
-                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
+                let json = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
                 let resultCode = json[WhooingKeyValues.code] as! Int
                 
                 if resultCode == WhooingKeyValues.success {
@@ -137,45 +148,45 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
                         realm.add(objects, update: true)
                         realm.delete(realm.objects(Section.self).filter("NOT (sectionId IN %@)", sectionIds))
                     })
-                } else {
-                    self.sectionsReceived(resultCode)
                 }
+                self.sectionsReceived(resultCode)
             } else {
                 self.sectionsReceived(-1)
             }
         }).resume()
     }
     
-    private func sectionsReceived(resultCode: Int) {
-        dispatch_async(dispatch_get_main_queue(), {
+    fileprivate func sectionsReceived(_ resultCode: Int) {
+        DispatchQueue.main.async(execute: {
             if (resultCode < 0) {
                 if self.sections?.count == 0 {
-                    let alertController = UIAlertController.init(title: NSLocalizedString("섹션 정보 없음", comment: "섹션 정보 없음"), message: NSLocalizedString("섹션 정보를 다운받지 못했습니다. 네트워크 상태를 확인하시고 다시 시도해주세요.", comment: "섹션 정보 없음"), preferredStyle: .Alert)
+                    let alertController = UIAlertController.init(title: NSLocalizedString("섹션 정보 없음", comment: "섹션 정보 없음"), message: NSLocalizedString("섹션 정보를 다운받지 못했습니다. 네트워크 상태를 확인하시고 다시 시도해주세요.", comment: "섹션 정보 없음"), preferredStyle: .alert)
                     
-                    alertController.addAction(UIAlertAction.init(title: NSLocalizedString("다시 시도", comment: "다시 시도"), style: .Default, handler: { action in
+                    alertController.addAction(UIAlertAction.init(title: NSLocalizedString("다시 시도", comment: "다시 시도"), style: .default, handler: { action in
                         self.receiveSectionsWithDefault()
                     }))
                 }
             } else {
-                NetworkUtility.checkResultCodeWithAlert(resultCode)
+                let _ = NetworkUtility.checkResultCodeWithAlert(resultCode)
+                self.isSectionReceived = true
             }
         })
     }
     
-    private func receiveAccounts() {
-        var url = NSURL.init(string: NetworkUtility.accountsUrl)!
+    fileprivate func receiveAccounts() {
+        var url = URL.init(string: NetworkUtility.accountsUrl)!
         
-        url = url.URLByAppendingPathExtension("json_array")
+        url = url.appendingPathExtension("json_array")
         
-        let urlComponents = NSURLComponents.init(string: url.absoluteString)!
-        let dateFormatter = NSDateFormatter.init()
+        var urlComponents = URLComponents.init(string: url.absoluteString)!
+        let dateFormatter = DateFormatter.init()
         
         dateFormatter.dateFormat = "yyyyMMdd"
-        urlComponents.queryItems = [NSURLQueryItem.init(name: WhooingKeyValues.sectionId, value: currentSectionId),
-                                    NSURLQueryItem.init(name: WhooingKeyValues.startDate, value: dateFormatter.stringFromDate(NSDate.init()))]
-        NSURLSession.sharedSession().dataTaskWithRequest(NetworkUtility.requestForApiCall(urlComponents.URL!, method: "GET", params: nil), completionHandler: {(data, response, error) in
+        urlComponents.queryItems = [URLQueryItem.init(name: WhooingKeyValues.sectionId, value: currentSectionId),
+                                    URLQueryItem.init(name: WhooingKeyValues.startDate, value: dateFormatter.string(from: Date.init()))]
+        URLSession.shared.dataTask(with: NetworkUtility.requestForApiCall(urlComponents.url!, method: "GET", params: nil), completionHandler: {(data, response, error) in
             if error == nil {
-                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
+                let json = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
                 let resultCode = json[WhooingKeyValues.code] as! Int
                 
                 if resultCode == WhooingKeyValues.success {
@@ -209,9 +220,8 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
                         realm.add(objects, update: true)
                         realm.delete(realm.objects(Account.self).filter("sectionId == %@ AND NOT (pk IN %@)", self.currentSectionId!, primaryKeys))
                     })
-                } else {
-                    self.accountsReceived(resultCode)
                 }
+                self.accountsReceived(resultCode)
             } else {
                 self.accountsReceived(-1)
             }
@@ -219,25 +229,86 @@ class WhooLiteViewController: UITabBarController, UINavigationControllerDelegate
 
     }
     
-    private func accountsReceived(resultCode: Int) {
-        dispatch_async(dispatch_get_main_queue(), {
+    fileprivate func accountsReceived(_ resultCode: Int) {
+        DispatchQueue.main.async(execute: {
             if (resultCode >= 0) {
-                NetworkUtility.checkResultCodeWithAlert(resultCode)
+                let _ = NetworkUtility.checkResultCodeWithAlert(resultCode)
+                self.isAccountReceived = true
             }
         })
     }
     
+    fileprivate func restartNotificationTokens(_ frequentItemsOnly: Bool = false) {
+        let realm = try! Realm()
+        let userDefaults = UserDefaults.standard
+        var showSlotNumbers = userDefaults.object(forKey: PreferenceKeyValues.showSlotNumbers) as? Array<Int>
+        
+        if showSlotNumbers == nil {
+            showSlotNumbers = [1, 2, 3]
+        }
+        frequentItemsNotificationToken?.stop()
+        frequentItemsNotificationToken = realm.objects(FrequentItem.self).filter("sectionId == %@ AND slotNumber IN %@", currentSectionId!, showSlotNumbers!).addNotificationBlock({ changes in
+            switch changes {
+            case .update(_, _, let insertions, _):
+                if insertions.count > 0 && self.tabBar.items!.index(of: self.tabBar.selectedItem!) != 0 {
+                    var count = insertions.count
+                    
+                    if let badgeValue = self.tabBar.items![0].badgeValue {
+                        count += Int(badgeValue)!
+                    }
+                    self.tabBar.items![0].badgeValue = String(count)
+                }
+            default:
+                break
+            }
+        })
+        if !frequentItemsOnly {
+            entriesNotificationToken?.stop()
+            entriesNotificationToken = realm.objects(Entry.self).filter("sectionId == %@", currentSectionId!).addNotificationBlock({ changes in
+                switch changes {
+                case .update(_, _, let insertions, _):
+                    if insertions.count > 0 && self.tabBar.items!.index(of: self.tabBar.selectedItem!) != 1 {
+                        var count = insertions.count
+                        
+                        if let badgeValue = self.tabBar.items![1].badgeValue {
+                            count += Int(badgeValue)!
+                        }
+                        self.tabBar.items![1].badgeValue = String(count)
+                    }
+                default:
+                    break
+                }
+            })
+        }
+    }
+    
     // MARK: - UINavigationControllerDelegate methods
     
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let vc = viewController as? WithAdmobViewController {
             if vc.embeddedViewController is WhooLiteTabBarItemBaseTableViewController {
                 receiveSectionsWithDefault()
                 if currentSectionId != nil {
                     receiveAccounts()
                 }
-
             }
         }
+    }
+    
+    // MARK: - Notification handler methods
+    
+    func logout() {
+        sectionsNotificationToken?.stop()
+    }
+    
+    func sectionIdChanged(_ notification: Notification) {
+        currentSectionId = notification.userInfo?[Notifications.sectionId] as? String
+        restartNotificationTokens()
+    }
+    
+    // MARK: - UITabBarDelegate methods
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        item.badgeValue = nil
     }
 }

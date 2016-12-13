@@ -37,7 +37,7 @@ class SoundSearcher: NSObject {
      * @param searchar
      * @return
      */
-    static private func isInitialSound(searchar: String) -> Bool {
+    static fileprivate func isInitialSound(_ searchar: String) -> Bool {
         for c in initialSound {
             if c == searchar {
                 return true
@@ -53,7 +53,7 @@ class SoundSearcher: NSObject {
      * @param c 검사할 문자
      * @return
      */
-    static private func getInitialSound(c: String) -> String {
+    static fileprivate func getInitialSound(_ c: String) -> String {
         let hanBegin = (c.unicodeScalars.first?.value)! - hangulBeginUnicode
         let index = Int(hanBegin / hangulBaseUnit)
         
@@ -66,7 +66,7 @@ class SoundSearcher: NSObject {
      * @param c 문자 하나
      * @return
      */
-    static private func isHangul(c: String) -> Bool {
+    static fileprivate func isHangul(_ c: String) -> Bool {
         let value = (c.unicodeScalars.first?.value)!
         
         return hangulBeginUnicode <= value && value <= hangulLastUnicode
@@ -85,7 +85,7 @@ class SoundSearcher: NSObject {
      * @param search : 검색어 ex> ㅅ검ㅅ합ㄴ
      * @return 매칭 되는거 찾으면 true 못찾으면 false.
      */
-    static func matchString(value: String, search: String) -> Bool {
+    static func matchString(_ value: String, search: String) -> Bool {
         var t: Int
         let seof = value.characters.count - search.characters.count
         let slen = search.characters.count
@@ -96,12 +96,19 @@ class SoundSearcher: NSObject {
         for i in 0...seof {
             t = 0
             while t < slen {
-                let index = search.startIndex.advancedBy(t)
-                let index2 = value.startIndex.advancedBy(i + t)
+                let index = search.index(search.startIndex, offsetBy: t)
+                var check = search.substring(from: index)
                 
-                if isInitialSound(search.substringWithRange(index...index)) && isHangul(value.substringWithRange(index2...index2)) {
+                check = check.substring(to: check.index(check.startIndex, offsetBy: 1))
+                
+                let index2 = value.index(value.startIndex, offsetBy: i + t)
+                var check2 = value.substring(from: index2)
+                
+                check2 = check2.substring(to: check2.index(check2.startIndex, offsetBy: 1))
+                
+                if isInitialSound(check) && isHangul(check2) {
                     //만약 현재 char이 초성이고 value가 한글이면
-                    if getInitialSound(value.substringWithRange(index2...index2)) == search.substringWithRange(index...index) {
+                    if getInitialSound(check2) == check {
                         //각각의 초성끼리 같은지 비교한다
                         t += 1
                     } else {
@@ -109,7 +116,7 @@ class SoundSearcher: NSObject {
                     }
                 } else {
                     //char이 초성이 아니라면
-                    if value.substringWithRange(index2...index2) == search.substringWithRange(index...index) {
+                    if check2 == check {
                         //그냥 같은지 비교한다.
                         t += 1
                     } else {

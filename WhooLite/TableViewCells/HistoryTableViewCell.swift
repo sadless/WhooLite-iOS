@@ -1,16 +1,16 @@
 //
-//  SelectTableViewCell.swift
+//  HistoryTableViewCell.swift
 //  WhooLite
 //
-//  Created by 안영건 on 2016. 8. 7..
+//  Created by 안영건 on 2016. 11. 1..
 //  Copyright © 2016년 영건닷컴. All rights reserved.
 //
 
 import UIKit
 
-class SelectableTableViewCell: UITableViewCell {
-    @IBOutlet weak var promptLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
+class HistoryTableViewCell: InputBaseTableViewCell {
+    @IBOutlet weak var memoLabel: UILabel!
+    @IBOutlet weak var leftBottomSpace: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()

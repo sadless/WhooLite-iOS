@@ -8,12 +8,14 @@
 
 import UIKit
 
-class DetailBaseTableViewController: UITableViewController, UITextFieldDelegate, TextFieldTableViewCellDelegate {
-    var itemTitleIndex: Int?
-    var moneyIndex: Int?
-    var firstResponderIndex = -1
+class DetailBaseTableViewController: UITableViewController, UITextFieldDelegate, TextFieldTableViewCellDelegate, UITextViewDelegate {
+    let itemTitleIndex = 1
+    let moneyIndex = 2
+    let memoIndex = 5
     
+    var firstResponderIndex = -1
     var editingTextField: UITextField?
+    var editingTextView: UITextView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +28,9 @@ class DetailBaseTableViewController: UITableViewController, UITextFieldDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.toolbarHidden = false
+        navigationController?.isToolbarHidden = false
     }
 
     /*
@@ -78,79 +80,151 @@ class DetailBaseTableViewController: UITableViewController, UITextFieldDelegate,
     
     // MARK: - Instance methods
     
-    func changeFirstResponderTo(toIndex: Int) {
-        let indexPath = NSIndexPath.init(forRow: toIndex, inSection: 0)
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as? TextFieldTableViewCell
+    func changeFirstResponderTo(_ toIndex: Int) {
+        let indexPath = IndexPath.init(row: toIndex, section: 0)
+        let cell = tableView.cellForRow(at: indexPath) as? TextFieldTableViewCell
         
         if let c = cell {
             c.textField.becomeFirstResponder()
         } else {
             firstResponderIndex = toIndex
-            tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+            tableView.scrollToRow(at: indexPath, at: .none, animated: true)
         }
     }
     
-    func checkFristResponder(cell: TextFieldTableViewCell, index: Int) {
+    func checkFirstResponder(_ cell: TextFieldTableViewCell, index: Int) {
         if firstResponderIndex == index {
-            cell.textField.becomeFirstResponder()
+            DispatchQueue.main.async {
+                cell.textField.becomeFirstResponder()
+            }
             firstResponderIndex = -1
         }
     }
     
-    func configureTextFieldCell(cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
+    func configureTextFieldCell(_ cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
         cell.textField.delegate = self
         cell.textField.tag = index
-        checkFristResponder(cell, index: index)
+        checkFirstResponder(cell, index: index)
         cell.delegate = self
         
         return cell
     }
     
-    func configureItemTitleCell(cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
-        let parent = parentViewController as! DetailBaseViewController
+    func configureItemTitleCell(_ cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
+        let parentViewController = parent as! DetailBaseViewController
         
-        parent.configureItemTitleCell(cell)
-        
-        return configureTextFieldCell(cell, index: index)
+        return configureTextFieldCell(parentViewController.configureItemTitleCell(cell), index: index)
     }
     
-    func configureMoneyCell(cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
-        let parent = parentViewController as! DetailBaseViewController
+    func configureMoneyCell(_ cell: TextFieldTableViewCell, index: Int) -> TextFieldTableViewCell {
+        let parentViewController = parent as! DetailBaseViewController
         
-        parent.configureMoneyCell(cell)
+        return configureTextFieldCell(parentViewController.configureMoneyCell(cell), index: index)
+    }
+    
+    func configureLeftCell(_ cell: SelectableTableViewCell) -> SelectableTableViewCell {
+        let parentViewController = parent as! DetailBaseViewController
         
-        return configureTextFieldCell(cell, index: index)
+        cell.promptLabel.text = NSLocalizedString("왼쪽", comment: "왼쪽")
+        cell.titleLabel.text = parentViewController.leftTitle()
+        
+        return cell
+    }
+    
+    func configureRightCell(_ cell: SelectableTableViewCell) -> SelectableTableViewCell {
+        let parentViewController = parent as! DetailBaseViewController
+        
+        cell.promptLabel.text = NSLocalizedString("오른쪽", comment: "오른쪽")
+        cell.titleLabel.text = parentViewController.rightTitle()
+        
+        return cell
+    }
+    
+    func configureMemoCell(_ cell: MemoTableViewCell) -> MemoTableViewCell {
+        let parentViewController = parent as! DetailBaseViewController
+        
+        cell.textView.text = parentViewController.memo
+        cell.textView.delegate = self
+        
+        return cell
     }
     
     // MARK: - TextFieldTableViewCellDelegate methods
     
-    func didPrevTouch(cell: TextFieldTableViewCell) {
+    func didPrevTouch(_ cell: TextFieldTableViewCell) {
         preconditionFailure()
     }
     
-    func didNextTouch(cell: TextFieldTableViewCell) {
+    func didNextTouch(_ cell: TextFieldTableViewCell) {
         preconditionFailure()
     }
     
-    func didReturnKeyTouch(cell: TextFieldTableViewCell) {
-        preconditionFailure()
+    func didReturnKeyTouch(_ cell: TextFieldTableViewCell) {
+        switch cell.textField.tag {
+        case itemTitleIndex:
+            didNextTouch(cell)
+        default:
+            cell.textField.resignFirstResponder()
+        }
     }
     
     // MARK: - UITextFieldDelegate methods
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         editingTextField = textField
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
-        let parent = parentViewController as! DetailBaseViewController
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let parentViewController = parent as! DetailBaseViewController
         
         switch textField.tag {
-        case itemTitleIndex!:
-            parent.itemTitle = textField.text
+        case itemTitleIndex:
+            parentViewController.itemTitle = textField.text
+        case moneyIndex:
+            parentViewController.money = textField.text!
         default:
             break
         }
         editingTextField = nil
+    }
+    
+    // MARK: - UITableViewDelegate methods
+    
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if scrollView != editingTextView {
+            editingTextField?.resignFirstResponder()
+            editingTextView?.resignFirstResponder()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == memoIndex {
+            return 110
+        } else {
+            return 44
+        }
+    }
+    
+    // MARK: - UITextViewDelegate methods
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        editingTextView = textView
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let parentViewController = parent as! DetailBaseViewController
+        
+        parentViewController.memo = textView.text
+        editingTextView = nil
+    }
+    
+    // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 6
     }
 }

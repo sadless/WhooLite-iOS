@@ -1,16 +1,15 @@
 //
-//  SelectTableViewCell.swift
+//  DatePickerTableViewCell.swift
 //  WhooLite
 //
-//  Created by 안영건 on 2016. 8. 7..
+//  Created by 안영건 on 2016. 11. 7..
 //  Copyright © 2016년 영건닷컴. All rights reserved.
 //
 
 import UIKit
 
-class SelectableTableViewCell: UITableViewCell {
-    @IBOutlet weak var promptLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
+class DatePickerTableViewCell: UITableViewCell {
+    @IBOutlet weak var datePicker: UIDatePicker!
 
     override func awakeFromNib() {
         super.awakeFromNib()

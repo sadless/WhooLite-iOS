@@ -10,6 +10,9 @@ import UIKit
 
 class Notifications: NSObject {
     static let sectionIdChanged = "sectionIdChanged"
+    static let showSlotNumbersChanged = "showSlotNumbersChanged"
+    static let frequentlyInputSortOrderChanged = "frequentlyInputSortOrderChanged"
+    static let logout = "logout"
     
     static let sectionId = "sectionId"
 }

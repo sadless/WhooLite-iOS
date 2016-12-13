@@ -34,7 +34,7 @@ class ManualViewController: UIViewController {
     
     // MARK: - Action methods
     
-    @IBAction func doneTouched(sender: AnyObject) {
-        navigationController?.performSegueWithIdentifier("start", sender: nil)
+    @IBAction func doneTouched(_ sender: AnyObject) {
+        navigationController?.performSegue(withIdentifier: "start", sender: nil)
     }
 }

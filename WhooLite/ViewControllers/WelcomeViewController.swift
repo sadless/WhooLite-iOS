@@ -24,9 +24,9 @@ class WelcomeViewController: UIViewController, LoginViewControllerDelegate {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == nil {
-            let navController = segue.destinationViewController as! UINavigationController
+            let navController = segue.destination as! UINavigationController
             let viewController = navController.viewControllers[0] as! LoginViewController
             
             viewController.delegate = self
@@ -35,11 +35,11 @@ class WelcomeViewController: UIViewController, LoginViewControllerDelegate {
     
     // MARK: - LoginViewControllerDelegate methods
     
-    func didLogin(apiKeyFormat: String) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+    func didLogin(_ apiKeyFormat: String) {
+        let userDefaults = UserDefaults.standard
         
-        userDefaults.setObject(apiKeyFormat, forKey: PreferenceKeys.apiKeyFormat)
+        userDefaults.set(apiKeyFormat, forKey: PreferenceKeyValues.apiKeyFormat)
         userDefaults.synchronize()
-        performSegueWithIdentifier("logined", sender: nil)
+        performSegue(withIdentifier: "logined", sender: nil)
     }
 }

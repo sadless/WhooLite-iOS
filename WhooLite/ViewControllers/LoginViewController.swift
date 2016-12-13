@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LoginViewControllerDelegate: NSObjectProtocol {
-    func didLogin(apiKeyFormat: String)
+    func didLogin(_ apiKeyFormat: String)
 }
 
 class LoginViewController: UIViewController, UIWebViewDelegate {
@@ -17,18 +17,25 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var whooingWebView: UIWebView!
     @IBOutlet weak var failedView: UIView!
     
-    private let requestTokenUrl = "https://whooing.com/app_auth/request_token"
-    private let authorizeUrl = "https://whooing.com/app_auth/authorize?no_register=y"
-    private let requestAccessTokenUrl = "https://whooing.com/app_auth/access_token"
+    fileprivate let requestTokenUrl = "https://whooing.com/app_auth/request_token"
+    fileprivate let authorizeUrl = "https://whooing.com/app_auth/authorize?no_register=y"
+    fileprivate let requestAccessTokenUrl = "https://whooing.com/app_auth/access_token"
     
-    private var token: String?
-    private var pin: String?
+    fileprivate var token: String?
+    fileprivate var pin: String?
     
     var delegate: LoginViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let cookieStorage = HTTPCookieStorage.shared
+        
+        if let cookies = cookieStorage.cookies {
+            for cookie in cookies {
+                cookieStorage.deleteCookie(cookie)
+            }
+        }
         requestToken()
     }
 
@@ -50,13 +57,13 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
 
     // MARK: - Action methods
     
-    @IBAction func cancelTouched(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelTouched(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func retryTouched(sender: AnyObject) {
-        failedView.hidden = true
-        activityIndicator.hidden = false
+    @IBAction func retryTouched(_ sender: AnyObject) {
+        failedView.isHidden = true
+        activityIndicator.isHidden = false
         if token == nil {
             requestToken()
         } else {
@@ -65,85 +72,85 @@ class LoginViewController: UIViewController, UIWebViewDelegate {
     }
     
     // MARK: - Instance methods
-    private func requestToken() {
-        let urlComponents = NSURLComponents.init(string: requestTokenUrl)!
+    fileprivate func requestToken() {
+        var urlComponents = URLComponents.init(string: requestTokenUrl)!
         
-        urlComponents.queryItems = [NSURLQueryItem.init(name: WhooingKeyValues.appId, value: ApiKeys.appId),
-            NSURLQueryItem.init(name: WhooingKeyValues.appSecret, value: ApiKeys.appSecret)]
-        NSURLSession.sharedSession().dataTaskWithURL(urlComponents.URL!, completionHandler: {(data, response, error) in
+        urlComponents.queryItems = [URLQueryItem.init(name: WhooingKeyValues.appId, value: ApiKeys.appId),
+            URLQueryItem.init(name: WhooingKeyValues.appSecret, value: ApiKeys.appSecret)]
+        URLSession.shared.dataTask(with: urlComponents.url!, completionHandler: {(data, response, error) in
             if error == nil {
-                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
-                let urlComponents = NSURLComponents.init(string: self.authorizeUrl)!
+                let json = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
+                var urlComponents = URLComponents.init(string: self.authorizeUrl)!
                 var queryItems = urlComponents.queryItems!
                 
                 self.token = json[WhooingKeyValues.token] as? String
-                queryItems.append(NSURLQueryItem.init(name: WhooingKeyValues.token, value: self.token))
+                queryItems.append(URLQueryItem.init(name: WhooingKeyValues.token, value: self.token))
                 urlComponents.queryItems = queryItems
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.activityIndicator.hidden = true
-                    self.whooingWebView.hidden = false
-                    self.whooingWebView.loadRequest(NSURLRequest.init(URL: urlComponents.URL!))
+                DispatchQueue.main.async(execute: {
+                    self.activityIndicator.isHidden = true
+                    self.whooingWebView.isHidden = false
+                    self.whooingWebView.loadRequest(URLRequest.init(url: urlComponents.url!))
                 })
             } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.activityIndicator.hidden = true
-                    self.failedView.hidden = false
+                DispatchQueue.main.async(execute: {
+                    self.activityIndicator.isHidden = true
+                    self.failedView.isHidden = false
                 })
             }
         }).resume()
     }
     
-    private func requestAccessToken() {
-        let urlComponents = NSURLComponents.init(string: requestAccessTokenUrl)!
+    fileprivate func requestAccessToken() {
+        var urlComponents = URLComponents.init(string: requestAccessTokenUrl)!
         
-        urlComponents.queryItems = [NSURLQueryItem.init(name: WhooingKeyValues.appId, value: ApiKeys.appId),
-                                    NSURLQueryItem.init(name: WhooingKeyValues.appSecret, value: ApiKeys.appSecret),
-                                    NSURLQueryItem.init(name: WhooingKeyValues.token, value: token),
-                                    NSURLQueryItem.init(name: WhooingKeyValues.pin, value: pin)]
-        NSURLSession.sharedSession().dataTaskWithURL(urlComponents.URL!, completionHandler: {(data, response, error) in
+        urlComponents.queryItems = [URLQueryItem.init(name: WhooingKeyValues.appId, value: ApiKeys.appId),
+                                    URLQueryItem.init(name: WhooingKeyValues.appSecret, value: ApiKeys.appSecret),
+                                    URLQueryItem.init(name: WhooingKeyValues.token, value: token),
+                                    URLQueryItem.init(name: WhooingKeyValues.pin, value: pin)]
+        URLSession.shared.dataTask(with: urlComponents.url!, completionHandler: {(data, response, error) in
             if error == nil {
-                let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String: AnyObject]
-                let appName = NSBundle.mainBundle().localizedInfoDictionary?["CFBundleDisplayName"] as! String
+                let json = try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: AnyObject]
+                let appName = Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as! String
                 var apiKeyFormat = WhooingKeyValues.appId + "=" + ApiKeys.appId + ","
                 
                 apiKeyFormat += WhooingKeyValues.token + "=" + (json[WhooingKeyValues.token] as! String) + ","
                 apiKeyFormat += WhooingKeyValues.signature + "=" + self.sha1(ApiKeys.appSecret + "|" + (json[WhooingKeyValues.tokenSecret] as! String)) + ","
                 apiKeyFormat += WhooingKeyValues.nonce + "=" + appName + ","
                 apiKeyFormat += WhooingKeyValues.timestamp + "=%f"
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.dismissViewControllerAnimated(true, completion: {
+                DispatchQueue.main.async(execute: {
+                    self.dismiss(animated: true, completion: {
                         self.delegate?.didLogin(apiKeyFormat)
                     })
                 })
             } else {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.activityIndicator.hidden = true
-                    self.failedView.hidden = false
+                DispatchQueue.main.async(execute: {
+                    self.activityIndicator.isHidden = true
+                    self.failedView.isHidden = false
                 })
             }
         }).resume()
     }
     
-    private func sha1(string: String) -> String {
-        let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
-        var digest = [UInt8](count: Int(CC_SHA1_DIGEST_LENGTH), repeatedValue: 0)
+    fileprivate func sha1(_ string: String) -> String {
+        let data = string.data(using: String.Encoding.utf8)!
+        var digest = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
         
-        CC_SHA1(data.bytes, CC_LONG(data.length), &digest)
+        CC_SHA1((data as NSData).bytes, CC_LONG(data.count), &digest)
         
         let hexBytes = digest.map {String.init(format: "%02hhx", $0)}
         
-        return hexBytes.joinWithSeparator("")
+        return hexBytes.joined(separator: "")
     }
     
     // MARK: - UIWebViewDelegate methods
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        let urlComponents = NSURLComponents.init(string: request.URL!.absoluteString)!
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        let urlComponents = URLComponents.init(string: request.url!.absoluteString)!
         if let queryItems = urlComponents.queryItems {
             for queryItem in queryItems {
                 if queryItem.name == WhooingKeyValues.pin {
-                    whooingWebView.hidden = true
-                    activityIndicator.hidden = false
+                    whooingWebView.isHidden = true
+                    activityIndicator.isHidden = false
                     pin = queryItem.value
                     requestAccessToken()
                 }

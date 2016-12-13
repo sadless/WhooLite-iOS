@@ -9,9 +9,9 @@
 import UIKit
 
 protocol TextFieldTableViewCellDelegate {
-    func didPrevTouch(cell: TextFieldTableViewCell)
-    func didNextTouch(cell: TextFieldTableViewCell)
-    func didReturnKeyTouch(cell: TextFieldTableViewCell)
+    func didPrevTouch(_ cell: TextFieldTableViewCell)
+    func didNextTouch(_ cell: TextFieldTableViewCell)
+    func didReturnKeyTouch(_ cell: TextFieldTableViewCell)
 }
 
 class TextFieldTableViewCell: UITableViewCell {
@@ -25,16 +25,16 @@ class TextFieldTableViewCell: UITableViewCell {
         
         let toolbar = UIToolbar.init()
         
-        toolbar.items = [UIBarButtonItem.init(title: NSLocalizedString("이전", comment: "이전"), style: .Plain, target: self, action: #selector(prevTouched)),
-                         UIBarButtonItem.init(title: NSLocalizedString("다음", comment: "다음"), style: .Plain, target: self, action: #selector(nextTouched)),
-                         UIBarButtonItem.init(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
-                         UIBarButtonItem.init(barButtonSystemItem: .Done, target: self, action: #selector(doneTouched))]
+        toolbar.items = [UIBarButtonItem.init(title: NSLocalizedString("이전", comment: "이전"), style: .plain, target: self, action: #selector(prevTouched)),
+                         UIBarButtonItem.init(title: NSLocalizedString("다음", comment: "다음"), style: .plain, target: self, action: #selector(nextTouched)),
+                         UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                         UIBarButtonItem.init(barButtonSystemItem: .done, target: self, action: #selector(doneTouched))]
         toolbar.sizeToFit()
         textField.inputAccessoryView = toolbar
-        textField.addTarget(self, action: #selector(returnKeyTouched), forControlEvents: .EditingDidEndOnExit)
+        textField.addTarget(self, action: #selector(returnKeyTouched), for: .editingDidEndOnExit)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -42,19 +42,19 @@ class TextFieldTableViewCell: UITableViewCell {
 
     // MARK: - Instance methods
     
-    func prevTouched(sender: AnyObject) {
+    func prevTouched(_ sender: AnyObject) {
         delegate?.didPrevTouch(self)
     }
     
-    func nextTouched(sender: AnyObject) {
+    func nextTouched(_ sender: AnyObject) {
         delegate?.didNextTouch(self)
     }
     
-    func doneTouched(sender: AnyObject) {
+    func doneTouched(_ sender: AnyObject) {
         textField.resignFirstResponder()
     }
     
-    func returnKeyTouched(sender: AnyObject) {
+    func returnKeyTouched(_ sender: AnyObject) {
         delegate?.didReturnKeyTouch(self)
     }
 }

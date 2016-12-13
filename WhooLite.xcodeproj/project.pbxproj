@@ -10,6 +10,7 @@
 		1183229F94438EAA042813FB /* Pods_WhooLiteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C633ACEA05E8F7D61B99F51 /* Pods_WhooLiteUITests.framework */; };
 		1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5A3AC61D3E197F007ACC4B /* FrequentItem.swift */; };
 		1BB3C06F1D7EEA3A0067088B /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BB3C06E1D7EEA3A0067088B /* ApiKeys.swift */; };
+		7B0FB3AD1DC7B41C0090D45E /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0FB3AC1DC7B41C0090D45E /* HistoryTableViewCell.swift */; };
 		7B299F851D3B9C6B00D51FF1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F841D3B9C6B00D51FF1 /* Account.swift */; };
 		7B299F871D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */; };
 		7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */; };
@@ -29,10 +30,13 @@
 		7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164ED1D3888D5009796E4 /* ManualViewController.swift */; };
 		7B3164F11D38A8F2009796E4 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F01D38A8F2009796E4 /* Section.swift */; };
 		7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3164F31D38B193009796E4 /* NetworkUtility.swift */; };
+		7B3BF3D41DCA5076004E10C9 /* HistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3BF3D31DCA5076004E10C9 /* HistoryDetailViewController.swift */; };
+		7B3BF3D61DCA52CE004E10C9 /* HistoryDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3BF3D51DCA52CE004E10C9 /* HistoryDetailTableViewController.swift */; };
 		7B465FF71D4906A0007888C5 /* SoundSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FF61D4906A0007888C5 /* SoundSearcher.swift */; };
 		7B465FF91D4C6708007888C5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B465FF81D4C6708007888C5 /* GoogleService-Info.plist */; };
 		7B465FFB1D4E0756007888C5 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FFA1D4E0756007888C5 /* Entry.swift */; };
 		7B465FFD1D4E0CD0007888C5 /* DataUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */; };
+		7B46AFB31DCF7D7E00173413 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B46AFB21DCF7D7E00173413 /* DatePickerTableViewCell.swift */; };
 		7B51F59B1D54BE3100670B04 /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */; };
 		7B51F59D1D54DE6A00670B04 /* DetailBaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59C1D54DE6A00670B04 /* DetailBaseTableViewController.swift */; };
 		7B51F59F1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */; };
@@ -45,9 +49,17 @@
 		7B75326C1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */; };
 		7B75326E1D7B296200ABB451 /* DetailBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326D1D7B296200ABB451 /* DetailBaseViewController.swift */; };
 		7B7532701D7B4DC000ABB451 /* SelectAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */; };
+		7B7CB2D31DD86E66005228EF /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7CB2D21DD86E66005228EF /* SettingsTableViewController.swift */; };
+		7B7CB2D51DD8D93F005228EF /* SelectShowSlotNumberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7CB2D41DD8D93F005228EF /* SelectShowSlotNumberTableViewController.swift */; };
+		7B7CB2D71DD8DD53005228EF /* SelectFrequentlyInputSortOrderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7CB2D61DD8DD53005228EF /* SelectFrequentlyInputSortOrderTableViewController.swift */; };
+		7B8A0D341DB37184009A9706 /* WhooLiteTabBarItemBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8A0D331DB37184009A9706 /* WhooLiteTabBarItemBaseViewController.swift */; };
+		7B8A0D361DBD2A47009A9706 /* BackgroundSearcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8A0D351DBD2A47009A9706 /* BackgroundSearcher.swift */; };
 		7BC55BF21D77433700828F61 /* WithAdmobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */; };
 		7BC55BF41D7749EE00828F61 /* FrequentlyInputDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF31D7749EE00828F61 /* FrequentlyInputDetailViewController.swift */; };
 		7BC55BF81D79E60000828F61 /* FrequentlyInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */; };
+		7BCD93141D8BDDDA007ACC7D /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCD93131D8BDDDA007ACC7D /* MemoTableViewCell.swift */; };
+		7BD84CD11DC3BAFC00645561 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD84CD01DC3BAFC00645561 /* HistoryViewController.swift */; };
+		7BD84CD31DC3BCDC00645561 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD84CD21DC3BCDC00645561 /* HistoryTableViewController.swift */; };
 		8D6535CF16FFF66E2EE5DA81 /* Pods_WhooLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3072CEC3A6F7D399D5614488 /* Pods_WhooLite.framework */; };
 		AADE68FD96746BC5D7A186DA /* Pods_WhooLiteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +89,7 @@
 		3C633ACEA05E8F7D61B99F51 /* Pods_WhooLiteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72B04AC8B4E2374A355EE0C1 /* Pods-WhooLiteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteTests/Pods-WhooLiteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		76CE915F0C4E4F21381BE170 /* Pods-WhooLiteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteUITests/Pods-WhooLiteUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B0FB3AC1DC7B41C0090D45E /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		7B299F841D3B9C6B00D51FF1 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhooLiteTabBarItemBaseTableViewController.swift; sourceTree = "<group>"; };
 		7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputTableViewController.swift; sourceTree = "<group>"; };
@@ -103,10 +116,13 @@
 		7B3164ED1D3888D5009796E4 /* ManualViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualViewController.swift; sourceTree = "<group>"; };
 		7B3164F01D38A8F2009796E4 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		7B3164F31D38B193009796E4 /* NetworkUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkUtility.swift; sourceTree = "<group>"; };
+		7B3BF3D31DCA5076004E10C9 /* HistoryDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryDetailViewController.swift; sourceTree = "<group>"; };
+		7B3BF3D51DCA52CE004E10C9 /* HistoryDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryDetailTableViewController.swift; sourceTree = "<group>"; };
 		7B465FF61D4906A0007888C5 /* SoundSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundSearcher.swift; sourceTree = "<group>"; };
 		7B465FF81D4C6708007888C5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B465FFA1D4E0756007888C5 /* Entry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataUtility.swift; sourceTree = "<group>"; };
+		7B46AFB21DCF7D7E00173413 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		7B51F59C1D54DE6A00670B04 /* DetailBaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBaseTableViewController.swift; sourceTree = "<group>"; };
 		7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputDetailTableViewController.swift; sourceTree = "<group>"; };
@@ -119,9 +135,17 @@
 		7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectSlotNumberTableViewController.swift; sourceTree = "<group>"; };
 		7B75326D1D7B296200ABB451 /* DetailBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailBaseViewController.swift; sourceTree = "<group>"; };
 		7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectAccountTableViewController.swift; sourceTree = "<group>"; };
+		7B7CB2D21DD86E66005228EF /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		7B7CB2D41DD8D93F005228EF /* SelectShowSlotNumberTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectShowSlotNumberTableViewController.swift; sourceTree = "<group>"; };
+		7B7CB2D61DD8DD53005228EF /* SelectFrequentlyInputSortOrderTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFrequentlyInputSortOrderTableViewController.swift; sourceTree = "<group>"; };
+		7B8A0D331DB37184009A9706 /* WhooLiteTabBarItemBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhooLiteTabBarItemBaseViewController.swift; sourceTree = "<group>"; };
+		7B8A0D351DBD2A47009A9706 /* BackgroundSearcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundSearcher.swift; sourceTree = "<group>"; };
 		7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithAdmobViewController.swift; sourceTree = "<group>"; };
 		7BC55BF31D7749EE00828F61 /* FrequentlyInputDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputDetailViewController.swift; sourceTree = "<group>"; };
 		7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrequentlyInputViewController.swift; sourceTree = "<group>"; };
+		7BCD93131D8BDDDA007ACC7D /* MemoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
+		7BD84CD01DC3BAFC00645561 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		7BD84CD21DC3BCDC00645561 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		7D23516D74EB0FC0CD819F38 /* Pods_WhooLiteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhooLiteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B44115AF61DEA10AE1AE255F /* Pods-WhooLiteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLiteUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLiteUITests/Pods-WhooLiteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F7FA6F189419308CE60DF987 /* Pods-WhooLite.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhooLite.release.xcconfig"; path = "Pods/Target Support Files/Pods-WhooLite/Pods-WhooLite.release.xcconfig"; sourceTree = "<group>"; };
@@ -249,6 +273,7 @@
 				7B3164EB1D388692009796E4 /* WhooLiteViewController.swift */,
 				7B3164ED1D3888D5009796E4 /* ManualViewController.swift */,
 				7BC55BF11D77433700828F61 /* WithAdmobViewController.swift */,
+				7B8A0D331DB37184009A9706 /* WhooLiteTabBarItemBaseViewController.swift */,
 				7B299F861D3BB9B200D51FF1 /* WhooLiteTabBarItemBaseTableViewController.swift */,
 				7BC55BF71D79E60000828F61 /* FrequentlyInputViewController.swift */,
 				7B299F8A1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift */,
@@ -259,6 +284,13 @@
 				7B51F59E1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift */,
 				7B75326B1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift */,
 				7B75326F1D7B4DC000ABB451 /* SelectAccountTableViewController.swift */,
+				7BD84CD01DC3BAFC00645561 /* HistoryViewController.swift */,
+				7BD84CD21DC3BCDC00645561 /* HistoryTableViewController.swift */,
+				7B3BF3D31DCA5076004E10C9 /* HistoryDetailViewController.swift */,
+				7B3BF3D51DCA52CE004E10C9 /* HistoryDetailTableViewController.swift */,
+				7B7CB2D21DD86E66005228EF /* SettingsTableViewController.swift */,
+				7B7CB2D41DD8D93F005228EF /* SelectShowSlotNumberTableViewController.swift */,
+				7B7CB2D61DD8DD53005228EF /* SelectFrequentlyInputSortOrderTableViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -280,6 +312,7 @@
 				7B3164F31D38B193009796E4 /* NetworkUtility.swift */,
 				7B465FF61D4906A0007888C5 /* SoundSearcher.swift */,
 				7B465FFC1D4E0CD0007888C5 /* DataUtility.swift */,
+				7B8A0D351DBD2A47009A9706 /* BackgroundSearcher.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -300,6 +333,9 @@
 				7B74B5121D45113F0003FBEF /* InputBaseTableViewCell.swift */,
 				7B51F59A1D54BE3100670B04 /* TextFieldTableViewCell.swift */,
 				7B51F5A01D5751A500670B04 /* SelectableTableViewCell.swift */,
+				7BCD93131D8BDDDA007ACC7D /* MemoTableViewCell.swift */,
+				7B0FB3AC1DC7B41C0090D45E /* HistoryTableViewCell.swift */,
+				7B46AFB21DCF7D7E00173413 /* DatePickerTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -386,18 +422,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "영건닷컴";
 				TargetAttributes = {
 					7B31649E1D3486E3009796E4 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					7B3164B21D3486E4009796E4 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 7B31649E1D3486E3009796E4;
 					};
 					7B3164BD1D3486E4009796E4 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 7B31649E1D3486E3009796E4;
 					};
 				};
@@ -480,7 +519,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6622FC1E4FEF54233EB707E3 /* [CP] Copy Pods Resources */ = {
@@ -510,7 +549,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		75DBE55391961C66E38A1822 /* [CP] Embed Pods Frameworks */ = {
@@ -585,7 +624,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -595,6 +634,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B7CB2D71DD8DD53005228EF /* SelectFrequentlyInputSortOrderTableViewController.swift in Sources */,
 				7B465FFB1D4E0756007888C5 /* Entry.swift in Sources */,
 				7BC55BF41D7749EE00828F61 /* FrequentlyInputDetailViewController.swift in Sources */,
 				7B3164F11D38A8F2009796E4 /* Section.swift in Sources */,
@@ -606,25 +646,36 @@
 				7BC55BF21D77433700828F61 /* WithAdmobViewController.swift in Sources */,
 				7B51F59D1D54DE6A00670B04 /* DetailBaseTableViewController.swift in Sources */,
 				7B3164EC1D388692009796E4 /* WhooLiteViewController.swift in Sources */,
+				7B8A0D361DBD2A47009A9706 /* BackgroundSearcher.swift in Sources */,
 				7B299F8B1D3BBEF300D51FF1 /* FrequentlyInputTableViewController.swift in Sources */,
 				7B3164EE1D3888D5009796E4 /* ManualViewController.swift in Sources */,
 				7B51F59F1D54DE8B00670B04 /* FrequentlyInputDetailTableViewController.swift in Sources */,
+				7BD84CD11DC3BAFC00645561 /* HistoryViewController.swift in Sources */,
 				7B51F5A11D5751A500670B04 /* SelectableTableViewCell.swift in Sources */,
 				7B75326C1D7B11F800ABB451 /* SelectSlotNumberTableViewController.swift in Sources */,
 				7B74B5131D45113F0003FBEF /* InputBaseTableViewCell.swift in Sources */,
+				7BD84CD31DC3BCDC00645561 /* HistoryTableViewController.swift in Sources */,
+				7B7CB2D31DD86E66005228EF /* SettingsTableViewController.swift in Sources */,
 				7BC55BF81D79E60000828F61 /* FrequentlyInputViewController.swift in Sources */,
 				7B74B5111D44E30D0003FBEF /* FrequentlyInputTableViewCell.swift in Sources */,
 				7B3164D91D37F569009796E4 /* WhooingKeyValues.swift in Sources */,
+				7BCD93141D8BDDDA007ACC7D /* MemoTableViewCell.swift in Sources */,
 				7B299F8D1D3BD23D00D51FF1 /* Notifications.swift in Sources */,
 				7B7532701D7B4DC000ABB451 /* SelectAccountTableViewController.swift in Sources */,
+				7B3BF3D41DCA5076004E10C9 /* HistoryDetailViewController.swift in Sources */,
 				7B3164D21D3785FE009796E4 /* PreferenceKeys.swift in Sources */,
 				7B3164EA1D38102A009796E4 /* WelcomeViewController.swift in Sources */,
+				7B8A0D341DB37184009A9706 /* WhooLiteTabBarItemBaseViewController.swift in Sources */,
 				7B465FFD1D4E0CD0007888C5 /* DataUtility.swift in Sources */,
+				7B46AFB31DCF7D7E00173413 /* DatePickerTableViewCell.swift in Sources */,
 				7B74B5151D452E740003FBEF /* SectionsTableViewController.swift in Sources */,
 				7B3164A31D3486E4009796E4 /* AppDelegate.swift in Sources */,
+				7B7CB2D51DD8D93F005228EF /* SelectShowSlotNumberTableViewController.swift in Sources */,
 				7B3164F41D38B193009796E4 /* NetworkUtility.swift in Sources */,
 				7B465FF71D4906A0007888C5 /* SoundSearcher.swift in Sources */,
+				7B0FB3AD1DC7B41C0090D45E /* HistoryTableViewCell.swift in Sources */,
 				7B74B50C1D4248530003FBEF /* NoDataView.swift in Sources */,
+				7B3BF3D61DCA52CE004E10C9 /* HistoryDetailTableViewController.swift in Sources */,
 				1BB3C06F1D7EEA3A0067088B /* ApiKeys.swift in Sources */,
 				1B5A3AC71D3E197F007ACC4B /* FrequentItem.swift in Sources */,
 			);
@@ -695,8 +746,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -718,7 +771,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -741,8 +794,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -758,9 +813,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -770,15 +826,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 17D81DFAA2C8F32B6DB344F9 /* Pods-WhooLite.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = WhooLite/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WhooLite/WhooLite-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -786,14 +844,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F7FA6F189419308CE60DF987 /* Pods-WhooLite.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = WhooLite/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLite;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WhooLite/WhooLite-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -806,6 +866,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhooLite.app/WhooLite";
 			};
 			name = Debug;
@@ -819,6 +880,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLiteTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WhooLite.app/WhooLite";
 			};
 			name = Release;
@@ -831,6 +893,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLiteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = WhooLite;
 			};
 			name = Debug;
@@ -843,6 +906,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.younggeon.WhooLiteUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = WhooLite;
 			};
 			name = Release;

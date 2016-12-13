@@ -8,17 +8,13 @@
 
 import UIKit
 
-class FrequentlyInputViewController: WithAdmobViewController {
+class FrequentlyInputViewController: WhooLiteTabBarItemBaseViewController {
     var frequentItem: FrequentItem?
+    var mergeArguments: [String: String]?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let tabBarItemTitle = tabBarController?.tabBar.items![0].title
-        
-        title = embeddedViewController?.title
-        tabBarController?.tabBar.items![0].title = tabBarItemTitle
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -29,17 +25,23 @@ class FrequentlyInputViewController: WithAdmobViewController {
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
-            case "detail":
-                let viewController = segue.destinationViewController as! FrequentlyInputDetailViewController
+            case "detail", "send":
+                let viewController = segue.destination as! FrequentlyInputDetailViewController
                 
                 viewController.frequentItem = frequentItem
-            case "embed":
-                embeddedViewController = segue.destinationViewController
+                if identifier == "send" {
+                    viewController.mode = .complete
+                    viewController.delegate = (embeddedViewController as! FrequentlyInputTableViewController)
+                }
+            case "merge":
+                let viewController = segue.destination as! HistoryTableViewController
+                
+                viewController.mergeArguments = mergeArguments
             default:
-                break
+                super.prepare(for: segue, sender: sender)
             }
         }
     }

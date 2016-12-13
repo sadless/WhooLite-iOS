@@ -22,8 +22,9 @@ class WithAdmobViewController: UIViewController {
         let request = GADRequest()
         
         adBannerView.adUnitID = ApiKeys.bannerAdUnitId
+        adBannerView.rootViewController = self
         request.testDevices = [kGADSimulatorID, ApiKeys.testDevice]
-        adBannerView.loadRequest(request)
+        adBannerView.load(request)
         navigationController?.delegate = tabBarController as! WhooLiteViewController
     }
 
@@ -32,15 +33,17 @@ class WithAdmobViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "embed":
+                embeddedViewController = segue.destination
+            default:
+                break
+            }
+        }
     }
-    */
-
 }

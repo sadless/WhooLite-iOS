@@ -18,25 +18,31 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
     var accounts: Results<Account>?
     var itemTitle: String?
     var money = ""
-    var numberFormatter = NSNumberFormatter.init()
+    var memo = ""
+    var numberFormatter = NumberFormatter.init()
+    var entryDateFormatter = DateFormatter.init()
+    var mergeArguments: [String: String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         let m = getMoney()
         
-        sectionId = userDefaults.objectForKey(PreferenceKeys.currentSectionId) as? String
+        sectionId = userDefaults.object(forKey: PreferenceKeyValues.currentSectionId) as? String
         accounts = try! Realm().objects(Account.self).filter("sectionId == %@", sectionId!)
-        itemTitle = getItemTitle()
-        numberFormatter.numberStyle = .DecimalStyle
-        if m >= WhooingKeyValues.epsilon {
-            money = (numberFormatter.stringFromNumber(NSNumber.init(double: m))?.stringByReplacingOccurrencesOfString(",", withString: ""))!
+        if itemTitle == nil {
+            itemTitle = getItemTitle()
+            numberFormatter.numberStyle = .decimal
+            if m >= WhooingKeyValues.epsilon {
+                money = (numberFormatter.string(from: NSNumber.init(value: m as Double))?.replacingOccurrences(of: ",", with: ""))!
+            }
+            leftAccountType = getLeftAccountType()
+            leftAccountId = getLeftAccountId()
+            rightAccountType = getRightAccountType()
+            rightAccountId = getRightAccountId()
         }
-        leftAccountType = getLeftAccountType()
-        leftAccountId = getLeftAccountId()
-        rightAccountType = getRightAccountType()
-        rightAccountId = getRightAccountId()
+        entryDateFormatter.dateFormat = "yyyyMMdd"
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,27 +53,31 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             switch identifier {
             case "embed":
-                embeddedViewController = segue.destinationViewController
+                embeddedViewController = segue.destination
             case "selectLeft":
-                let viewController = segue.destinationViewController as! SelectAccountTableViewController
+                let viewController = segue.destination as! SelectAccountTableViewController
                 
                 viewController.sectionId = sectionId
-                viewController.direction = .Left
+                viewController.direction = .left
                 viewController.accountType = leftAccountType
                 viewController.accountId = leftAccountId
                 viewController.delegate = self
             case "selectRight":
-                let viewController = segue.destinationViewController as! SelectAccountTableViewController
+                let viewController = segue.destination as! SelectAccountTableViewController
                 
                 viewController.sectionId = sectionId
-                viewController.direction = .Right
+                viewController.direction = .right
                 viewController.accountType = rightAccountType
                 viewController.accountId = rightAccountId
                 viewController.delegate = self
+            case "merge":
+                let viewController = segue.destination as! HistoryTableViewController
+                
+                viewController.mergeArguments = mergeArguments
             default:
                 break
             }
@@ -77,6 +87,10 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
     // MARK: - Instance methods
     
     func leftTitle() -> String {
+        if (leftAccountType?.isEmpty)! {
+            return NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+        }
+        
         let account = accounts?.filter("accountType == %@ AND accountId == %@", leftAccountType!, leftAccountId!).first
         
         if let a = account {
@@ -92,11 +106,15 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
             
             return title
         } else {
-            return NSLocalizedString("(알 수 없음)", comment: "(알 수 없음)")
+            return ""
         }
     }
     
     func rightTitle() -> String {
+        if (rightAccountType?.isEmpty)! {
+            return NSLocalizedString("(지정 안 됨)", comment: "지정 안 됨")
+        }
+        
         let account = accounts?.filter("accountType == %@ AND accountId == %@", rightAccountType!, rightAccountId!).first
         
         if let a = account {
@@ -112,24 +130,26 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
             
             return title
         } else {
-            return NSLocalizedString("(알 수 없음)", comment: "(알 수 없음)")
+            return ""
         }
     }
     
-    func configureItemTitleCell(cell: TextFieldTableViewCell) -> TextFieldTableViewCell {
+    func configureItemTitleCell(_ cell: TextFieldTableViewCell) -> TextFieldTableViewCell {
         cell.promptLabel.text = NSLocalizedString("아이템", comment: "아이템")
         cell.textField.placeholder = NSLocalizedString("아이템", comment: "아이템")
         cell.textField.text = itemTitle
-        cell.textField.returnKeyType = .Next
+        cell.textField.keyboardType = .default
+        cell.textField.returnKeyType = .next
         
         return cell
     }
     
-    func configureMoneyCell(cell: TextFieldTableViewCell) -> TextFieldTableViewCell {
+    func configureMoneyCell(_ cell: TextFieldTableViewCell) -> TextFieldTableViewCell {
         cell.promptLabel.text = NSLocalizedString("금액", comment: "금액")
         cell.textField.placeholder = NSLocalizedString("금액", comment: "금액")
         cell.textField.text = money
-        cell.textField.returnKeyType = .Done
+        cell.textField.keyboardType = .decimalPad
+        cell.textField.returnKeyType = .done
         
         return cell
     }
@@ -162,14 +182,15 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
     
     // MARK: - SelectAccountTableViewControllerDelegate methods
     
-    func didSelectAccount(direction: SelectAccountTableViewController.Direction, accountType: String, accountId: String) {
+    func didSelectAccount(_ direction: SelectAccountTableViewController.Direction, accountType: String, accountId: String) {
         switch direction {
-        case .Left:
+        case .left:
             leftAccountType = accountType
             leftAccountId = accountId
-        case .Right:
+        case .right:
             rightAccountType = accountType
             rightAccountId = accountId
         }
+        (embeddedViewController as! UITableViewController).tableView.reloadData()
     }
 }
