@@ -281,6 +281,7 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                     default:
                         needCheck = true
                     }
+                    self.getDataFromSection(_section)
                     if needCheck {
                         objc_sync_enter(self)
                         self.sectionReady = true
@@ -298,7 +299,6 @@ class WhooLiteTabBarItemBaseTableViewController: UITableViewController {
                 parent?.title = title
                 tabBarController?.tabBar.items![tabBarItemIndex].title = tabBarItemTitle
             }
-            getDataFromSection(_section)
         }
     }
     

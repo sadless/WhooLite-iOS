@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 import RealmSwift
 
-class HistoryDetailViewController: DetailBaseViewController {
+class HistoryDetailViewController: DetailBaseViewController, HistoryTableViewControllerDelegate {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     @IBOutlet weak var spaceButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -169,6 +169,31 @@ class HistoryDetailViewController: DetailBaseViewController {
         })
     }
     
+    func editEntry() {
+        SVProgressHUD.show(withStatus: NSLocalizedString("잠시만 기다려주세요", comment: "대기"))
+        NetworkUtility.putEntry(sectionId: self.sectionId!, entryId: entry!.entryId, entryDate: String(self.entryDate!), leftAccountType: self.leftAccountType!, leftAccountId: self.leftAccountId!, rightAccountType: self.rightAccountType!, rightAccountId: self.rightAccountId!, itemTitle: self.itemTitle!, money: self.money, memo: self.memo, completionHandler: { resultCode in
+            self.entrySaved(resultCode)
+        })
+    }
+    
+    func mergeEdit(entryId: Int64, mergedMoney: String) {
+        SVProgressHUD.show(withStatus: NSLocalizedString("잠시만 기다려주세요", comment: "대기"))
+        NetworkUtility.putEntry(sectionId: self.sectionId!, entryId: entryId, entryDate: entryDateFormatter.string(from: Date()), leftAccountType: leftAccountType!, leftAccountId: leftAccountId!, rightAccountType: rightAccountType!, rightAccountId: rightAccountId!, itemTitle: itemTitle!, money: mergedMoney, memo: "", completionHandler: { resultCode in
+            if resultCode < 0 {
+                SVProgressHUD.dismiss()
+                let alertController = UIAlertController.init(title: NSLocalizedString("거래 입력 실패", comment: "거래 입력 실패"), message: String.init(format: NSLocalizedString("[%1$@] 거래를 입력하지 못했습니다. 네트워크 상태를 확인하시고 다시 시도해주세요.", comment: "거래 입력 실패"), self.itemTitle!), preferredStyle: .alert)
+                
+                alertController.addAction(UIAlertAction.init(title: NSLocalizedString("다시 시도", comment: "다시 시도"), style: .default, handler: {action in
+                    self.mergeEdit(entryId: entryId, mergedMoney: mergedMoney)
+                }))
+                alertController.addAction(UIAlertAction.init(title: NSLocalizedString("입력 취소", comment: "입력 취소"), style: .cancel, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.deleteEntry(self.entry!.entryId)
+            }
+        })
+    }
+    
     // MARK: - Action methods
     
     @IBAction func bookmarkTouched(_ sender: Any) {
@@ -195,36 +220,35 @@ class HistoryDetailViewController: DetailBaseViewController {
         let prevEntries = DataUtility.duplicateEntries(with: try! Realm(), sectionId: sectionId!, entryDate: entryDateFormatter.string(from: Date()), itemTitle: itemTitle!, leftAccountType: leftAccountType!, leftAccountId: leftAccountId!, rightAccountType: rightAccountType!, rightAccountId: rightAccountId!, memo: self.memo)
 
         if prevEntries.count > 0 {
-//            let alertController = UIAlertController.init(title: NSLocalizedString("병합하기", comment: "병합하기"), message: NSLocalizedString("최근 내역중에 같은 내용으로 입력된 항목이 있습니다. 금액을 더해서 하나의 항목으로 병합할까요?", comment: "병합하기"), preferredStyle: .alert)
-//            
-//            alertController.addAction(UIAlertAction.init(title: NSLocalizedString("병합하기", comment: "병합하기"), style: .default, handler: { action in
-//                if prevEntries.count == 1 {
-//                    let entry = prevEntries.first!
-//                    let inputMoney = Double(self.money)!
-//                    
-//                    self.mergeSend(entryId: entry.entryId, mergedMoney: String(inputMoney + entry.money))
-//                } else {
-//                    self.mergeArguments = [WhooingKeyValues.sectionId: self.sectionId!,
-//                                           WhooingKeyValues.entryDate: self.entryDateFormatter.string(from: Date()),
-//                                           WhooingKeyValues.leftAccountType: self.leftAccountType!,
-//                                           WhooingKeyValues.leftAccountId: self.leftAccountId!,
-//                                           WhooingKeyValues.rightAccountType: self.rightAccountType!,
-//                                           WhooingKeyValues.rightAccountId: self.rightAccountId!,
-//                                           WhooingKeyValues.itemTitle: self.itemTitle!,
-//                                           WhooingKeyValues.money: self.money,
-//                                           WhooingKeyValues.memo: ""]
-//                    self.performSegue(withIdentifier: "merge", sender: nil)
-//                }
-//            }))
-//            alertController.addAction(UIAlertAction.init(title: NSLocalizedString("새 항목으로 입력", comment: "새 항목으로 입력"), style: .destructive, handler: { action in
-//                self.send()
-//            }))
-//            present(alertController, animated: true, completion: nil)
+            let alertController = UIAlertController.init(title: NSLocalizedString("병합하기", comment: "병합하기"), message: NSLocalizedString("최근 내역중에 같은 내용으로 입력된 항목이 있습니다. 금액을 더해서 하나의 항목으로 병합할까요?", comment: "병합하기"), preferredStyle: .alert)
+            
+            alertController.addAction(UIAlertAction.init(title: NSLocalizedString("병합하기", comment: "병합하기"), style: .default, handler: { action in
+                if prevEntries.count == 1 {
+                    let entry = prevEntries.first!
+                    let inputMoney = Double(self.money)!
+
+                    self.mergeEdit(entryId: entry.entryId, mergedMoney: String(inputMoney + entry.money))
+                } else {
+                    self.mergeArguments = [WhooingKeyValues.sectionId: self.sectionId!,
+                                           WhooingKeyValues.entryDate: self.entryDateFormatter.string(from: Date()),
+                                           WhooingKeyValues.leftAccountType: self.leftAccountType!,
+                                           WhooingKeyValues.leftAccountId: self.leftAccountId!,
+                                           WhooingKeyValues.rightAccountType: self.rightAccountType!,
+                                           WhooingKeyValues.rightAccountId: self.rightAccountId!,
+                                           WhooingKeyValues.itemTitle: self.itemTitle!,
+                                           WhooingKeyValues.money: self.money,
+                                           WhooingKeyValues.memo: "",
+                                           WhooingKeyValues.entryId: String(self.entry!.entryId)]
+                    self.mergeDelegate = self
+                    self.performSegue(withIdentifier: "merge", sender: nil)
+                }
+            }))
+            alertController.addAction(UIAlertAction.init(title: NSLocalizedString("이 항목만 수정", comment: "이 항목만 수정"), style: .destructive, handler: { action in
+                self.editEntry()
+            }))
+            present(alertController, animated: true, completion: nil)
         } else {
-            SVProgressHUD.show(withStatus: NSLocalizedString("잠시만 기다려주세요", comment: "대기"))
-            NetworkUtility.putEntry(sectionId: self.sectionId!, entryId: entry!.entryId, entryDate: String(self.entryDate!), leftAccountType: self.leftAccountType!, leftAccountId: self.leftAccountId!, rightAccountType: self.rightAccountType!, rightAccountId: self.rightAccountId!, itemTitle: self.itemTitle!, money: self.money, memo: self.memo, completionHandler: { resultCode in
-                self.entrySaved(resultCode)
-            })
+            editEntry()
         }
     }
     
@@ -276,5 +300,11 @@ class HistoryDetailViewController: DetailBaseViewController {
                 }
             })
         }
+    }
+    
+    // MARK: - HistoryTableViewControllerDelegate methods
+    
+    func didMergeEntries() {
+        self.deleteEntry(self.entry!.entryId)
     }
 }

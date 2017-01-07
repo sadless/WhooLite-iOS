@@ -22,6 +22,7 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
     var numberFormatter = NumberFormatter.init()
     var entryDateFormatter = DateFormatter.init()
     var mergeArguments: [String: String]?
+    var mergeDelegate: HistoryTableViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +79,7 @@ class DetailBaseViewController: WithAdmobViewController, SelectAccountTableViewC
                 let viewController = segue.destination as! HistoryTableViewController
                 
                 viewController.mergeArguments = mergeArguments
+                viewController.delegate = mergeDelegate
             default:
                 break
             }

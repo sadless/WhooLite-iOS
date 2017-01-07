@@ -10,6 +10,10 @@ import UIKit
 import RealmSwift
 import SVProgressHUD
 
+protocol HistoryTableViewControllerDelegate {
+    func didMergeEntries()
+}
+
 class HistoryTableViewController: WhooLiteTabBarItemBaseTableViewController {
     var entries: Results<Entry>?
     var entriesNotificationToken: NotificationToken?
@@ -17,6 +21,7 @@ class HistoryTableViewController: WhooLiteTabBarItemBaseTableViewController {
     var bookmarkingSlotNumber: Int?
     var bookmarkingParams = [[String: String]]()
     var mergeArguments: [String: String]?
+    var delegate: HistoryTableViewControllerDelegate?
     
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
@@ -228,8 +233,12 @@ class HistoryTableViewController: WhooLiteTabBarItemBaseTableViewController {
     }
     
     override func didDeleteSelectedItems(resultCode: Int) {
-        super.didDeleteSelectedItems(resultCode: resultCode)
-        
+        if let delegate = delegate, resultCode >= 0 {
+            let _ = navigationController?.popViewController(animated: true)
+            delegate.didMergeEntries()
+        } else {
+            super.didDeleteSelectedItems(resultCode: resultCode)
+        }
         if resultCode < 0 {
             self.entriesNotificationToken = self.entries?.addNotificationBlock({ changes in
                 self.refreshSections()

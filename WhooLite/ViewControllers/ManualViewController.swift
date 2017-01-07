@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ManualViewController: UIViewController {
+class ManualViewController: UIViewController, UIScrollViewDelegate {
+    @IBOutlet weak var manualScrollView: UIScrollView!
+    @IBOutlet weak var manualPageControl: UIPageControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,5 +38,11 @@ class ManualViewController: UIViewController {
     
     @IBAction func doneTouched(_ sender: AnyObject) {
         navigationController?.performSegue(withIdentifier: "start", sender: nil)
+    }
+    
+    // MARK: - UIScrollViewDelegate methods
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        manualPageControl.currentPage = Int(scrollView.contentOffset.x / view.frame.width)
     }
 }
